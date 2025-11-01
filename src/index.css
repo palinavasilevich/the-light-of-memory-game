@@ -1,1 +1,74 @@
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap");
+
 @import "tailwindcss";
+
+@theme inline {
+  --font-amatic: "Amatic SC", Cinzel, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
+}
+
+:root {
+  background: radial-gradient(
+    circle,
+    rgb(30, 28, 52) 0%,
+    rgb(3, 3, 28) 44%,
+    rgba(10, 10, 56, 1) 83%
+  );
+}
+
+@layer base {
+  /* * {
+    @apply border-border outline-ring/50;
+  } */
+
+  body {
+    @apply font-amatic;
+  }
+}
+
+.game-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.reference-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #aaa9a9;
+  /* Add a border for consistency */
+  padding: 10px;
+  /* Add some padding around the image */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* Add shadow for depth */
+}
+
+.reference-image img {
+  display: block;
+  /* Remove any default inline spacing */
+  max-width: 200px;
+}
+
+.puzzle-container {
+  width: 400px;
+  height: 400px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  border: 5px solid #aaa9a9;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  /* Add a larger shadow for a 3D effect */
+  background: #ddd;
+  /* Light background for the gaps */
+}
+
+.puzzle-piece {
+  width: 100%;
+  height: 100%;
+  background-size: 400px 400px;
+  cursor: grab;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+  /* Add inset shadow for each piece */
+}

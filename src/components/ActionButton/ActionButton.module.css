@@ -1,0 +1,62 @@
+.action-btn {
+  padding: 30px 90px;
+  border: 0;
+  outline: none;
+  border-radius: 0 !important;
+  background-color: #ff9b00;
+  cursor: pointer;
+  position: relative;
+  font-size: 1rem;
+  text-transform: uppercase;
+  color: #ff9b00;
+  clip-path: polygon(92% 0, 100% 25%, 100% 100%, 8% 100%, 0% 75%, 0 0);
+  z-index: 3;
+  opacity: 1;
+}
+
+.text {
+  color: #ff9b00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  cursor: pointer;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  background: radial-gradient(
+    circle,
+    rgb(30, 28, 52) 0%,
+    rgb(3, 3, 28) 44%,
+    rgba(10, 10, 56, 1) 83%
+  );
+  clip-path: polygon(92% 0, 100% 25%, 100% 100%, 8% 100%, 0% 75%, 0 0);
+  z-index: 4;
+}
+
+.label {
+  height: 10px;
+  font-size: 0.4rem;
+  position: absolute;
+  bottom: -1.2px;
+  right: 8%;
+  padding: 0 5px;
+  background: radial-gradient(
+    circle,
+    rgb(30, 28, 52) 0%,
+    rgb(3, 3, 28) 44%,
+    rgba(10, 10, 56, 1) 83%
+  );
+  z-index: 5;
+}
+
+.action-btn:hover {
+  background: #8b0000;
+  box-shadow: inset 0px 0px 5px 3px rgba(1, 1, 1, 0.3);
+
+  .action-btn__text,
+  .action-btn__label {
+    color: #8b0000;
+  }
+}

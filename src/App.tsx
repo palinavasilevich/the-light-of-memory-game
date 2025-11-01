@@ -1,3 +1,9 @@
+import { StoryScene } from "./components/Scene/Scene";
+
 export function App() {
-  return <div>App</div>;
+  return (
+    <div>
+      <StoryScene />
+    </div>
+  );
 }
