@@ -11,9 +11,9 @@ export type ActionType = {
 };
 
 export type Condition = {
-  itemId: string;
-  hasItem: boolean;
-  nextSceneId: string;
+  item: string;
+  hasItem?: boolean;
+  nextSceneId?: string;
 };
 
 export type PuzzleTypes = "sentence" | "scorpion" | "lantern";
