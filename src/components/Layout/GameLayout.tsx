@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FullscreenButton } from "../FullscreenButton/FullscreenButton";
+import { AmbientParticles } from "../Background/AmbientParticles";
 
 type Props = {
   backgroundImg?: string;
@@ -23,34 +24,33 @@ export const GameLayout: React.FC<Props> = ({
   }, [sceneKey]);
 
   return (
-    <div
-      ref={ref}
-      className="relative w-full h-screen overflow-hidden flex items-center justify-center bg-black text-gray-100"
-    >
+    <div className="relative w-full h-screen flex items-center justify-center bg-black text-gray-100 overflow-hidden">
       {backgroundImg && (
         <motion.img
           key={backgroundImg}
           src={backgroundImg}
           alt="background"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.4 }}
+          animate={{ opacity: 0.5 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.2 }}
+          transition={{ duration: 1.5 }}
           className="absolute inset-0 w-full h-full object-cover"
         />
       )}
 
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent pointer-events-none" />
+      <AmbientParticles />
 
-      <div className="z-10 w-full max-w-3xl px-6 py-8">
+      <div className="absolute inset-0 bg-linear-to-b from-black/70 via-black/50 to-black/90" />
+
+      <div className="z-10 w-full max-w-3xl px-6 py-8 text-shadow-lg ">
         <AnimatePresence mode="wait">
           <motion.div
             key={sceneKey}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.6 }}
-            className="bg-black/60 backdrop-blur-md rounded-2xl shadow-2xl p-6 border border-white/10"
+            transition={{ duration: 0.8 }}
+            className="bg-black/60 backdrop-blur-md rounded-2xl shadow-2xl p-6 border border-white/10 flex flex-col items-center"
           >
             {children}
           </motion.div>

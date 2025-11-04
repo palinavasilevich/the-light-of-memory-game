@@ -72,3 +72,10 @@
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
   /* Add inset shadow for each piece */
 }
+
+.text-shadow-lg {
+  text-shadow: 0 0 10px rgba(255, 230, 180, 0.4);
+}
+.glow {
+  filter: drop-shadow(0 0 10px rgba(255, 200, 120, 0.6));
+}

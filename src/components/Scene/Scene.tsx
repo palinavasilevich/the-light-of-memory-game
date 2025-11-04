@@ -1,125 +1,145 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { TextTyper } from "../TextTyper/TextTyper";
 import { story } from "../../data/story";
 import { ActionButton } from "../ActionButton/ActionButton";
 import { Puzzle } from "../Puzzle/Puzzle";
+import { GameLayout } from "../Layout/GameLayout";
+import { useGameStore } from "../../store/gameStore";
 import type { SceneType } from "../../types/game";
 
 export function StoryScene() {
   const [index, setIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(true);
   const [isInPuzzle, setIsInPuzzle] = useState(false);
-
   const current: SceneType | undefined = story[index];
 
-  const handleTypingDone = useCallback(() => {
-    setIsTyping(false);
-  }, []);
+  const { availableActions, setAvailableActions, completeAction } =
+    useGameStore();
+
+  const handleTypingDone = useCallback(() => setIsTyping(false), []);
 
   const goToSceneById = useCallback((sceneId: string) => {
     const nextIndex = story.findIndex((s) => s.id === sceneId);
-    if (nextIndex !== -1) {
-      setIndex(nextIndex);
-      setIsTyping(true);
-    }
+    if (nextIndex === -1) return;
+
+    setIndex(nextIndex);
+    setIsTyping(true);
   }, []);
 
-  const handleNext = useCallback(
-    (actionId?: string) => {
+  const handleNext = useCallback(() => {
+    if (!current) return;
+    if (current.puzzle) return setIsInPuzzle(true);
+
+    if (current.nextSceneId && availableActions.length === 0)
+      return goToSceneById(current.nextSceneId);
+
+    if (index < story.length - 1) {
+      setIndex(index + 1);
       setIsTyping(true);
+    }
+  }, [current, index, availableActions, goToSceneById]);
 
-      if (!current) return;
-
-      // Если есть пазл, открываем его вместо перехода
-      if (current.puzzle) {
-        setIsInPuzzle(true);
-        return;
-      }
-
-      if (actionId) {
-        // Здесь можно добавить логику ветвления или условий
-        console.log("Action chosen:", actionId);
-
-        // Пробуем перейти по nextSceneId, если задан в действии
-        const action = current.actions?.find((a) => a.id === actionId);
-        if (action?.nextSceneId) {
-          goToSceneById(action.nextSceneId);
-          return;
-        }
-      }
-
-      // Иначе просто идём к следующей сцене по порядку
-      if (index < story.length - 1) {
-        setIndex((prev) => prev + 1);
-      }
+  const handleActionClick = useCallback(
+    (actionId: string, nextSceneId?: string) => {
+      completeAction(actionId);
+      if (nextSceneId) goToSceneById(nextSceneId);
     },
-    [current, index, goToSceneById]
+    [completeAction, goToSceneById]
   );
 
   const handleSolvedPuzzle = useCallback(() => {
     setIsInPuzzle(false);
+    if (current?.puzzle?.nextSceneId) goToSceneById(current.puzzle.nextSceneId);
+    else handleNext();
+  }, [current, goToSceneById, handleNext]);
 
+  // При загрузке сцены обновляем список доступных действий
+  useEffect(() => {
     if (!current) return;
 
-    // Переход по nextSceneId пазла
-    if (current.puzzle?.nextSceneId) {
-      goToSceneById(current.puzzle.nextSceneId);
-      return;
+    if (current.actions && current.actions.length > 1) {
+      setAvailableActions(current.actions);
     }
-
-    // Иначе просто следующая сцена
-    if (index < story.length - 1) {
-      setIndex((prev) => prev + 1);
-      setIsTyping(true);
-    }
-  }, [current, index, goToSceneById]);
+    // если это промежуточная сцена (без действий) — ничего не сбрасываем
+  }, [current, setAvailableActions]);
 
   if (!current) return <div>Loading...</div>;
 
-  // Рендер пазла, если открыт
-  if (isInPuzzle && current.puzzle) {
+  if (isInPuzzle && current.puzzle)
     return (
       <Puzzle puzzleType={current.puzzle.type} onSolved={handleSolvedPuzzle} />
     );
-  }
+
+  const actionsToShow = current.showAvailableActions
+    ? availableActions
+    : current.actions;
+
+  const showContinueButton =
+    current.showAvailableActions &&
+    current.actions &&
+    current.actions.length > 0 &&
+    availableActions.length === 0;
 
   return (
-    <div className="p-6 text-lg text-gray-100 bg-black/50 rounded-xl">
-      {current.backgroundImg && (
-        <img
-          src={current.backgroundImg}
-          alt="background"
-          className="w-full h-64 object-cover rounded-lg mb-4 opacity-70"
-        />
-      )}
+    // <GameLayout backgroundImg={current.backgroundImg} sceneKey={current.id}>
+    //   <TextTyper
+    //     text={current.text ?? ""}
+    //     speed={35}
+    //     onComplete={handleTypingDone}
+    //   />
+    //   <div className="mt-6">
+    //     {!isTyping && current.actions ? (
+    //       <div className="flex gap-3">
+    //         {current.actions.map((a) => (
+    //           <ActionButton
+    //             key={a.id}
+    //             text={a.text}
+    //             onClick={() => handleActionClick(a.id, a.nextSceneId)}
+    //           />
+    //         ))}
+    //       </div>
+    //     ) : !isTyping && !current.actions && !current.puzzle ? (
+    //       <ActionButton text="Continue" onClick={() => handleNext()} />
+    //     ) : (
+    //       <div className="mt-3 text-gray-400 text-sm italic animate-pulse">
+    //         ...
+    //       </div>
+    //     )}
+    //   </div>
+    // </GameLayout>
 
+    <GameLayout backgroundImg={current.backgroundImg} sceneKey={current.id}>
       <TextTyper
         text={current.text ?? ""}
         speed={35}
         onComplete={handleTypingDone}
       />
 
-      <div className="mt-4">
-        {!isTyping && current.actions && (
-          <div className="flex flex-col gap-2">
-            {current.actions.map((action) => (
+      <div className="mt-6">
+        {!isTyping && actionsToShow && actionsToShow.length > 0 ? (
+          <div className="flex gap-3 flex-wrap">
+            {actionsToShow.map((a) => (
               <ActionButton
-                key={action.id}
-                text={action.text}
-                onClick={() => handleNext(action.id)}
+                key={a.id}
+                text={a.text}
+                onClick={() => handleActionClick(a.id, a.nextSceneId)}
               />
             ))}
+
+            {showContinueButton && (
+              <ActionButton text="Continue" onClick={handleNext} />
+            )}
+          </div>
+        ) : !isTyping &&
+          (!actionsToShow || actionsToShow.length === 0) &&
+          !current.puzzle ? (
+          <ActionButton text="Continue" onClick={handleNext} />
+        ) : (
+          <div className="mt-3 text-gray-400 text-sm italic animate-pulse">
+            ...
           </div>
         )}
-
-        {!isTyping && !current.actions && !current.puzzle && (
-          <ActionButton text="Continue" onClick={() => handleNext()} />
-        )}
-
-        {isTyping && (
-          <div className="mt-2 text-gray-400 text-sm italic">...</div>
-        )}
       </div>
-    </div>
+    </GameLayout>
   );
 }

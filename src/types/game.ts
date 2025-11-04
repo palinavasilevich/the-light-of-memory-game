@@ -3,7 +3,7 @@ export type Storyteller = {
   avatar?: string;
 };
 
-export type Action = {
+export type ActionType = {
   id: string;
   text: string;
   nextSceneId?: string;
@@ -37,10 +37,12 @@ export type SceneType = {
   // content: Content;
   sound?: string;
   storyteller?: Storyteller;
-  actions?: Action[];
+  actions?: ActionType[];
   puzzle?: Puzzle;
   duration?: number; // автоматический переход через время
   backgroundMusicLoop?: boolean;
   specialEffects?: ("fade" | "shake" | "flash")[];
   conditions?: Condition[]; // условия для перехода
+  showAvailableActions?: boolean;
+  nextSceneId?: string;
 };
