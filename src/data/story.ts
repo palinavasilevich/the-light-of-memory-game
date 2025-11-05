@@ -231,7 +231,7 @@ export const story: SceneType[] = [
     actions: [{ id: "chapter1_act_5", text: "Открыть дверь" }],
   },
 
-  ///
+  ///chapter2 ///
   {
     groupId: "chapter2",
     id: "chapter2_1",
@@ -261,7 +261,7 @@ export const story: SceneType[] = [
     groupId: "chapter2",
     id: "chapter2_3",
     backgroundImg: images.corridor,
-    text: "Вдоль стен высятся стеллажи с тысячами книг — потемневших от времени и покрытых тонким слоем пыли.",
+    text: "Вдоль стен тянутся высокие стеллажи с тысячами книг — потемневших от времени и покрытых толстым (thin or thick) слоем пыли.",
     sound: sounds.wake,
     storyteller: { name: "Storyteller" },
   },
@@ -270,7 +270,7 @@ export const story: SceneType[] = [
     groupId: "chapter2",
     id: "chapter2_4",
     backgroundImg: images.corridor,
-    text: "Когда ты проходишь мимо, некоторые книги сами приоткрываются — страницы шуршат, словно приветствуя гостя.",
+    text: "Некоторые книги сами приоткрываются, когда ты проходишь мимо. Их страницы шуршат, словно приветствуя давнего знакомого.",
     sound: sounds.wake,
     storyteller: { name: "Storyteller" },
   },
@@ -288,7 +288,7 @@ export const story: SceneType[] = [
     groupId: "chapter2",
     id: "chapter2_6",
     backgroundImg: images.corridor,
-    text: "На полу следы пепла и осколки тусклого стекла — словно здесь недавно что-то сгорело.",
+    text: "На полу следы пепла и осколки тусклого стекла, будто здесь совсем недавно что-то сгорело.",
     sound: sounds.wake,
     storyteller: { name: "Storyteller" },
   },
@@ -297,7 +297,7 @@ export const story: SceneType[] = [
     groupId: "chapter2",
     id: "chapter2_7",
     backgroundImg: images.corridor,
-    text: "У основания стола что-то блестит.",
+    text: "У основания стола что-то блестит в тусклом свете.",
     sound: sounds.wake,
     storyteller: { name: "Storyteller" },
     actions: [
@@ -341,7 +341,7 @@ export const story: SceneType[] = [
     groupId: "chapter2",
     id: "chapter2_10",
     backgroundImg: images.corridor,
-    text: "Подняв взгляд, ты ощущаешь странное чувство — будто уже бывал здесь раньше.",
+    text: "Подняв взгляд, ты ощущаешь странное дежавю — будто уже бывал здесь раньше.",
     sound: sounds.wake,
     storyteller: { name: "Storyteller" },
   },
@@ -359,7 +359,7 @@ export const story: SceneType[] = [
     groupId: "chapter2",
     id: "chapter2_12",
     backgroundImg: images.corridor,
-    text: "Мысль ускользает, как сон, оставляя лёгкое беспокойство.",
+    text: "Мысль ускользает от тебя, оставляя лёгкое беспокойство.",
     sound: sounds.wake,
     storyteller: { name: "Storyteller" },
   },
@@ -368,7 +368,7 @@ export const story: SceneType[] = [
     groupId: "chapter2",
     id: "chapter2_13",
     backgroundImg: images.corridor,
-    text: "Перед тобой — тот же дубовый стол. Он будто ждёт, когда ты прикоснёшься к его тайне.",
+    text: "Перед тобой — тот же дубовый стол. Он будто ждёт, когда ты прикоснёшься к его тайнам.",
     sound: sounds.wake,
     storyteller: { name: "Storyteller" },
     actions: [
@@ -384,26 +384,95 @@ export const story: SceneType[] = [
     groupId: "chapter2",
     id: "chapter2_14",
     backgroundImg: images.corridor,
-    text: "На столе — чернильница, сгоревшие страницы и толстая книга в тёмно-зелёном переплёте.",
+    text: "На столе — чернильница, пожелтевшие и обгоревшие страницы, и толстая книга в тёмно-зелёном переплёте.",
     sound: sounds.wake,
     storyteller: { name: "Storyteller" },
     actions: [
       {
         id: "chapter2_act_5",
-        text: "Осмотреть страницы",
+        text: "Осмотреть бумаги",
         nextSceneId: "chapter2_15",
       },
+    ],
+  },
+
+  ///letter
+  {
+    groupId: "chapter2",
+    id: "chapter2_15",
+    backgroundImg: images.tableClose,
+    sound: sounds.memory,
+    text: `Ты осторожно разгребаешь старые страницы. Среди них ты замечаешь письмо с почерневшими краями.`,
+    storyteller: { name: "Storyteller" },
+  },
+
+  {
+    groupId: "chapter2",
+    id: "chapter2_16",
+    backgroundImg: images.tableClose,
+    sound: sounds.memory,
+    text: `Чернила едва различимы, но некоторые строки всё ещё можно прочесть.`,
+    storyteller: { name: "Storyteller" },
+    actions: [
       {
-        id: "chapter2_act_5_1",
-        text: "Осмотреть книгу",
-        nextSceneId: "chapter2_15",
+        id: "chapter2_act_6",
+        text: "Прочесть письмо",
+        // showExtraContent: true;
+        nextSceneId: "chapter2_17",
       },
     ],
   },
 
   {
     groupId: "chapter2",
-    id: "chapter2_15",
+    id: "chapter2_17",
+    backgroundImg: images.memoryBlur,
+    sound: sounds.memory,
+    text: "Мир вокруг меркнет. В голове вспыхивают образы — короткие, обрывочные: смех, солнечный свет на ладонях, чьи-то знакомые глаза.",
+    storyteller: { name: "Storyteller" },
+  },
+
+  {
+    groupId: "chapter2",
+    id: "chapter2_18",
+    backgroundImg: images.memoryBlur,
+    sound: sounds.memory,
+    text: "Ты пытаешься удержать их, но они тают, как дым...",
+    storyteller: { name: "Storyteller" },
+  },
+
+  {
+    groupId: "chapter2",
+    id: "chapter2_19",
+    backgroundImg: images.memoryBlur,
+    sound: sounds.memory,
+    // text: "Ты возвращаешься в реальность, стоя возле стола, и твоё внимание приковывает книга в тёмно-зелёном переплёте.",
+
+    text: "Ты возвращаешься в реальность. Стоя возле стола, ты замечаешь, как мягкий свет падает на книгу в тёмно-зелёном переплёте.",
+    storyteller: { name: "Storyteller" },
+  },
+
+  {
+    groupId: "chapter2",
+    id: "chapter2_20",
+    backgroundImg: images.memoryBlur,
+    sound: sounds.memory,
+    // text: "Ты возвращаешься в реальность, стоя возле стола, и твоё внимание приковывает книга в тёмно-зелёном переплёте.",
+
+    text: "Внутри что-то будто подсказывает — здесь спрятана тайна, которую нужно разгадать.",
+    storyteller: { name: "Storyteller" },
+    actions: [
+      {
+        id: "chapter2_act_7",
+        text: "Осмотреть книгу",
+        nextSceneId: "chapter2_21",
+      },
+    ],
+  },
+
+  {
+    groupId: "chapter2",
+    id: "chapter2_21",
     backgroundImg: images.corridor,
     text: "Переплёт покрыт странными символами — смесью рун и знаков древнего языка, напоминающего тебе эльфийский.",
     sound: sounds.wake,
@@ -412,7 +481,7 @@ export const story: SceneType[] = [
 
   {
     groupId: "chapter2",
-    id: "chapter2_16",
+    id: "chapter2_22",
     backgroundImg: images.corridor,
     text: "Ты проводишь пальцами по обложке и она едва заметно дрожит, словно живая. В следующее мгновение книга внезапно раскрывается сама.",
     sound: sounds.wake,
@@ -421,7 +490,7 @@ export const story: SceneType[] = [
 
   {
     groupId: "chapter2",
-    id: "chapter2_17",
+    id: "chapter2_23",
     backgroundImg: images.room,
     text: "Буквы на страницах оживают и начинают складываться в строки на смутно знакомом тебе языке.",
     sound: sounds.wake,
@@ -430,7 +499,7 @@ export const story: SceneType[] = [
 
   {
     groupId: "chapter2",
-    id: "chapter2_18",
+    id: "chapter2_24",
     backgroundImg: images.room,
     text: "Это не эльфийский, как показалось сначала... Это древний немецкий.",
     sound: sounds.wake,
@@ -439,7 +508,7 @@ export const story: SceneType[] = [
 
   {
     groupId: "chapter2",
-    id: "chapter2_19",
+    id: "chapter2_25",
     backgroundImg: images.room,
     text: `"Древний немецкий?.. Откуда я его вообще знаю?.."`,
     sound: sounds.wake,
@@ -448,13 +517,13 @@ export const story: SceneType[] = [
 
   {
     groupId: "chapter2",
-    id: "chapter2_20",
+    id: "chapter2_26",
     backgroundImg: images.room,
     text: `Голос из темноты прерывает твои мысли: <i>"BEOBACHTEN... LERNEN... WACHSEN..."</i>`,
     puzzle: {
       id: "chapter2_puzzle_0",
       type: "sentence",
-      nextSceneId: "chapter2_21",
+      nextSceneId: "chapter2_27",
     },
     sound: sounds.wake,
     storyteller: { name: "Storyteller" },
@@ -462,7 +531,7 @@ export const story: SceneType[] = [
 
   {
     groupId: "chapter2",
-    id: "chapter2_21",
+    id: "chapter2_27",
     backgroundImg: images.room,
     text: `Слова вспыхивают мягким золотым светом и складываются в новую фразу: <i>"FOLGE DER GOLDENEN MAUS."</i>`,
     sound: sounds.wake,
@@ -472,48 +541,48 @@ export const story: SceneType[] = [
 
   {
     groupId: "chapter2",
-    id: "chapter2_22",
+    id: "chapter2_28",
     backgroundImg: images.room,
     text: "Ты чувствуешь лёгкое движение в кармане...",
     sound: sounds.wake,
     storyteller: { name: "Storyteller" },
     actions: [
       {
-        id: "chapter2_act_6",
+        id: "chapter2_act_8",
         text: "Проверить карман",
-        nextSceneId: "chapter2_23",
+        nextSceneId: "chapter2_29",
       },
     ],
   },
 
   {
     groupId: "chapter2",
-    id: "chapter2_23",
+    id: "chapter2_29",
     backgroundImg: images.room,
-    text: "Ты достаёшь фигурку — и она оживает. Её глаза вспыхивают мягким светом.",
+    text: "Доставая фигурку, ты видишь, как она оживает на твоей ладоне.",
     sound: sounds.wake,
     storyteller: { name: "Storyteller" },
   },
 
   {
     groupId: "chapter2",
-    id: "chapter2_24",
+    id: "chapter2_30",
     backgroundImg: images.room,
     text: "Мышь спрыгивает на пол и бежит в дальнюю часть комнаты.",
     sound: sounds.wake,
     storyteller: { name: "Storyteller" },
     actions: [
       {
-        id: "chapter2_act_7",
+        id: "chapter2_act_9",
         text: "Следовать за ней",
-        nextSceneId: "chapter2_25",
+        nextSceneId: "chapter2_31",
       },
     ],
   },
 
   {
     groupId: "chapter2",
-    id: "chapter2_25",
+    id: "chapter2_31",
     backgroundImg: images.room,
     text: "Ты идёшь следом и видишь, как каменная плита в стене медленно сдвигается, открывая узкий проход вниз.",
     sound: sounds.wake,
