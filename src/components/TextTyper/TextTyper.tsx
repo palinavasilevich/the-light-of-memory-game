@@ -58,5 +58,5 @@ export function TextTyper({ text, speed = 35, onComplete }: TextTyperProps) {
     };
   }, [text, speed]);
 
-  return <span>{displayed}</span>;
+  return <p className="text-xl text-center">{displayed}</p>;
 }

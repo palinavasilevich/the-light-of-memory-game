@@ -1,5 +1,5 @@
 export type Storyteller = {
-  name: string;
+  name: "Storyteller" | "Player";
   avatar?: string;
 };
 

@@ -226,332 +226,353 @@ export const story: SceneType[] = [
   //   storyteller: { name: "Storyteller" },
   //   actions: [{ id: "chapter1_act_5", text: "Открыть дверь" }],
   // },
-  // ///chapter2 ///
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_1",
-  //   backgroundImg: images.corridor,
-  //   text: "Ты медленно входишь в комнату. Внутри всё кажется неподвижным, будто время здесь остановилось.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_2",
-  //   backgroundImg: images.corridor,
-  //   text: "С каждым шагом запах пепла и старой бумаги становится сильнее.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  //   actions: [
-  //     {
-  //       id: "chapter2_act_0",
-  //       text: "Осмотреться вокруг",
-  //       nextSceneId: "chapter2_3",
-  //     },
-  //   ],
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_3",
-  //   backgroundImg: images.corridor,
-  //   text: "Вдоль стен тянутся высокие стеллажи с тысячами книг — потемневших от времени и покрытых толстым (thin or thick) слоем пыли.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_4",
-  //   backgroundImg: images.corridor,
-  //   text: "Некоторые книги сами приоткрываются, когда ты проходишь мимо. Их страницы шуршат, словно приветствуя давнего знакомого.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_5",
-  //   backgroundImg: images.corridor,
-  //   text: "В центре комнаты стоит массивный дубовый стол, заваленный пожелтевшими пергаментами и обугленными обрывками бумаги.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_6",
-  //   backgroundImg: images.corridor,
-  //   text: "На полу следы пепла и осколки тусклого стекла, будто здесь совсем недавно что-то сгорело.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_7",
-  //   backgroundImg: images.corridor,
-  //   text: "У основания стола что-то блестит в тусклом свете.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  //   actions: [
-  //     {
-  //       id: "chapter2_act_2",
-  //       text: "Подойти ближе и рассмотреть",
-  //       nextSceneId: "chapter2_8",
-  //     },
-  //   ],
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_8",
-  //   backgroundImg: images.corridor,
-  //   text: "Ты наклоняешься и замечаешь крошечную фигурку мыши 🐭, лежащую в пыли.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  //   actions: [
-  //     {
-  //       id: "chapter2_act_3",
-  //       text: "Взять фигурку",
-  //       nextSceneId: "chapter2_9",
-  //     },
-  //   ],
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_9",
-  //   backgroundImg: images.corridor,
-  //   text: "Фигурка холодна на ощупь и сделана из потемневшего металла. В её глазах мерцают крошечные рубины.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  //   conditions: [
-  //     { item: "<br/>В инвентарь добавлен предмет: <i>figurine_mouse</i>." },
-  //   ],
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_10",
-  //   backgroundImg: images.corridor,
-  //   text: "Подняв взгляд, ты ощущаешь странное дежавю — будто уже бывал здесь раньше.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_11",
-  //   backgroundImg: images.corridor,
-  //   text: `"Почему это место кажется мне таким знакомым?.."`,
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Player" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_12",
-  //   backgroundImg: images.corridor,
-  //   text: "Мысль ускользает от тебя, оставляя лёгкое беспокойство.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_13",
-  //   backgroundImg: images.corridor,
-  //   text: "Перед тобой — тот же дубовый стол. Он будто ждёт, когда ты прикоснёшься к его тайнам.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  //   actions: [
-  //     {
-  //       id: "chapter2_act_4",
-  //       text: "Осмотреть стол",
-  //       nextSceneId: "chapter2_14",
-  //     },
-  //   ],
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_14",
-  //   backgroundImg: images.corridor,
-  //   text: "На столе — чернильница, пожелтевшие и обгоревшие страницы, и толстая книга в тёмно-зелёном переплёте.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  //   actions: [
-  //     {
-  //       id: "chapter2_act_5",
-  //       text: "Осмотреть бумаги",
-  //       nextSceneId: "chapter2_15",
-  //     },
-  //   ],
-  // },
-  // ///letter
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_15",
-  //   backgroundImg: images.tableClose,
-  //   sound: sounds.memory,
-  //   text: `Ты осторожно разгребаешь старые страницы. Среди них ты замечаешь письмо с почерневшими краями.`,
-  //   storyteller: { name: "Storyteller" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_16",
-  //   backgroundImg: images.tableClose,
-  //   sound: sounds.memory,
-  //   text: `Чернила едва различимы, но некоторые строки всё ещё можно прочесть.`,
-  //   storyteller: { name: "Storyteller" },
-  //   actions: [
-  //     {
-  //       id: "chapter2_act_6",
-  //       text: "Прочесть письмо",
-  //       // showExtraContent: true;
-  //       nextSceneId: "chapter2_17",
-  //     },
-  //   ],
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_17",
-  //   backgroundImg: images.memoryBlur,
-  //   sound: sounds.memory,
-  //   text: "Мир вокруг меркнет. В голове вспыхивают образы — короткие, обрывочные: смех, солнечный свет на ладонях, чьи-то знакомые глаза.",
-  //   storyteller: { name: "Storyteller" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_18",
-  //   backgroundImg: images.memoryBlur,
-  //   sound: sounds.memory,
-  //   text: "Ты пытаешься удержать их, но они тают, как дым...",
-  //   storyteller: { name: "Storyteller" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_19",
-  //   backgroundImg: images.memoryBlur,
-  //   sound: sounds.memory,
-  //   // text: "Ты возвращаешься в реальность, стоя возле стола, и твоё внимание приковывает книга в тёмно-зелёном переплёте.",
-  //   text: "Ты возвращаешься в реальность. Стоя возле стола, ты замечаешь, как мягкий свет падает на книгу в тёмно-зелёном переплёте.",
-  //   storyteller: { name: "Storyteller" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_20",
-  //   backgroundImg: images.memoryBlur,
-  //   sound: sounds.memory,
-  //   // text: "Ты возвращаешься в реальность, стоя возле стола, и твоё внимание приковывает книга в тёмно-зелёном переплёте.",
-  //   text: "Внутри что-то будто подсказывает — здесь спрятана тайна, которую нужно разгадать.",
-  //   storyteller: { name: "Storyteller" },
-  //   actions: [
-  //     {
-  //       id: "chapter2_act_7",
-  //       text: "Осмотреть книгу",
-  //       nextSceneId: "chapter2_21",
-  //     },
-  //   ],
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_21",
-  //   backgroundImg: images.corridor,
-  //   text: "Переплёт покрыт странными символами — смесью рун и знаков древнего языка, напоминающего тебе эльфийский.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_22",
-  //   backgroundImg: images.corridor,
-  //   text: "Ты проводишь пальцами по обложке и она едва заметно дрожит, словно живая. В следующее мгновение книга внезапно раскрывается сама.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_23",
-  //   backgroundImg: images.room,
-  //   text: "Буквы на страницах оживают и начинают складываться в строки на смутно знакомом тебе языке.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_24",
-  //   backgroundImg: images.room,
-  //   text: "Это не эльфийский, как показалось сначала... Это древний немецкий.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_25",
-  //   backgroundImg: images.room,
-  //   text: `"Древний немецкий?.. Откуда я его вообще знаю?.."`,
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Player" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_26",
-  //   backgroundImg: images.room,
-  //   text: `Голос из темноты прерывает твои мысли: <i>"BEOBACHTEN... LERNEN... WACHSEN..."</i>`,
-  //   puzzle: {
-  //     id: "chapter2_puzzle_0",
-  //     type: "sentence",
-  //     nextSceneId: "chapter2_27",
-  //   },
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_27",
-  //   backgroundImg: images.room,
-  //   text: `Слова вспыхивают мягким золотым светом и складываются в новую фразу: <i>"FOLGE DER GOLDENEN MAUS."</i>`,
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  //   duration: 5000,
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_28",
-  //   backgroundImg: images.room,
-  //   text: "Ты чувствуешь лёгкое движение в кармане...",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  //   actions: [
-  //     {
-  //       id: "chapter2_act_8",
-  //       text: "Проверить карман",
-  //       nextSceneId: "chapter2_29",
-  //     },
-  //   ],
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_29",
-  //   backgroundImg: images.room,
-  //   text: "Доставая фигурку, ты видишь, как она оживает на твоей ладоне.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_30",
-  //   backgroundImg: images.room,
-  //   text: "Мышь спрыгивает на пол и бежит в дальнюю часть комнаты.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  //   actions: [
-  //     {
-  //       id: "chapter2_act_9",
-  //       text: "Следовать за ней",
-  //       nextSceneId: "chapter2_31",
-  //     },
-  //   ],
-  // },
-  // {
-  //   groupId: "chapter2",
-  //   id: "chapter2_31",
-  //   backgroundImg: images.room,
-  //   text: "Ты идёшь следом и видишь, как каменная плита в стене медленно сдвигается, открывая узкий проход вниз.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  // },
-  /// chapter 3
+
+  // ===== CHAPTER 2 =====
+
+  {
+    groupId: "chapter2",
+    id: "chapter2_1",
+    backgroundImg: images.corridor,
+    text: "Ты медленно входишь в комнату. Внутри всё кажется неподвижным, будто время здесь остановилось.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+  },
+  {
+    groupId: "chapter2",
+    id: "chapter2_2",
+    backgroundImg: images.corridor,
+    text: "В воздухе витает запах старой бумаги и пыли.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+    actions: [
+      {
+        id: "chapter2_act_0",
+        text: "Осмотреться вокруг",
+      },
+    ],
+  },
+
+  {
+    groupId: "chapter2",
+    id: "chapter2_3",
+    backgroundImg: images.library,
+    text: "Вдоль стен тянутся высокие стеллажи с тысячами книг, потемневших от времени и покрытых (thin or thick) слоем пыли.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+  },
+  {
+    groupId: "chapter2",
+    id: "chapter2_4",
+    backgroundImg: images.library,
+    text: "В углу ты замечаешь уютное кресло и небольшой столик с небольшой стопкой книг — похоже, кто-то часто любил сидеть здесь и читать.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+  },
+  {
+    groupId: "chapter2",
+    id: "chapter2_5",
+    backgroundImg: images.library,
+    text: "Когда ты проходишь мимо книжных полок, некоторые будто слегка сдвигаются, их страницы шелестят — словно приветствуя старого знакомого.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+    actions: [
+      {
+        id: "chapter2_act_1",
+        text: "Осмотреть книжные полки",
+      },
+    ],
+  },
+
+  // --- ПОЛКИ ---
+  {
+    groupId: "chapter2",
+    id: "chapter2_6",
+    backgroundImg: images.shelfClose,
+    text: "Ты проводишь пальцами по пыльным корешкам книг. Одна из книг поддаётся — и из-за неё выпадает свернутый пополам лист бумаги.",
+    sound: sounds.paper,
+    storyteller: { name: "Storyteller" },
+    actions: [
+      {
+        id: "chapter2_act_2",
+        text: "Развернуть лист",
+      },
+    ],
+  },
+  {
+    groupId: "chapter2",
+    id: "chapter2_7",
+    backgroundImg: images.scroll,
+    text: "На бумаге ты видишь аккуратный чертёж какого-то механического устройства. Тонкие линии переплетаются с непонятными тебе символами, складываясь в очертание существа... напоминающего скорпиона.",
+    // text: "На бумаге ты видишь аккуратный чертёж каково-то механического устройства. На нём тонкие линии переплетаются с непонятными тебе символами.",
+    // Стрелки, подписи, линии — всё выверено, как будто создано рукой мага-инженера.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+    actions: [
+      {
+        id: "chapter2_act_3",
+        text: "Забрать чертёж",
+      },
+    ],
+  },
+  {
+    groupId: "chapter2",
+    id: "chapter2_8",
+    backgroundImg: images.shelfClose,
+    text: "Ты аккуратно складываешь чертёж и убираешь его в карман. Почему-то тебе кажется, что он ещё пригодится.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+  },
+
+  {
+    groupId: "chapter2",
+    id: "chapter2_9",
+    backgroundImg: images.shelfClose,
+    text: "На верхней полке что-то слегка блестит между книгами.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+    actions: [
+      {
+        id: "chapter2_act_4",
+        text: "Подойти ближе и рассмотреть",
+      },
+    ],
+  },
+  {
+    groupId: "chapter2",
+    id: "chapter2_10",
+    backgroundImg: images.shelfClose,
+    text: "Между книг ты замечаешь крошечную фигурку мыши 🐭 из тёмного металла. В её глазах тускло мерцают крошечные рубины.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+    conditions: [
+      { item: "<br/>В инвентарь добавлен предмет: <i>figurine_mouse</i>." },
+    ],
+  },
+
+  // --- ПЕРЕХОД К КРЕСЛУ ---
+  {
+    groupId: "chapter2",
+    id: "chapter2_11",
+    backgroundImg: images.library,
+    text: "В дальнем конце комнаты стоит кресло у столика, на котором разбросаны старые бумаги.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+    actions: [
+      {
+        id: "chapter2_act_5",
+        text: "Осмотреть стол",
+      },
+    ],
+  },
+
+  // --- СТОЛИК И ПИСЬМО ---
+  {
+    groupId: "chapter2",
+    id: "chapter2_12",
+    backgroundImg: images.tableCorner,
+    text: "На столике лежат несколько старых книг и груда пожелтевших от времени пергаментов.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+  },
+
+  {
+    groupId: "chapter2",
+    id: "chapter2_12",
+    backgroundImg: images.tableCorner,
+    text: "Среди них ты замечаешь письмо с выцветшими чернилами.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+    actions: [
+      {
+        id: "chapter2_act_6",
+        text: "Осмотреть внимательнее",
+      },
+    ],
+  },
+
+  {
+    groupId: "chapter2",
+    id: "chapter2_13",
+    backgroundImg: images.tableClose,
+    sound: sounds.memory,
+    text: "Некоторые строки всё ещё можно разобрать, хотя большая часть текста давно стерлась временем.",
+    storyteller: { name: "Storyteller" },
+    actions: [
+      {
+        id: "chapter2_act_6",
+        text: "Прочесть письмо",
+        // showExtraContent: true;
+      },
+    ],
+  },
+
+  {
+    groupId: "chapter2",
+    id: "chapter2_14",
+    backgroundImg: images.memoryBlur,
+    sound: sounds.memory,
+    text: "Мир вокруг меркнет. В голове вспыхивают образы — короткие, обрывочные: смех, солнечный свет на ладонях, чьё-то знакомое лицо.",
+    storyteller: { name: "Storyteller" },
+  },
+
+  {
+    groupId: "chapter2",
+    id: "chapter2_15",
+    backgroundImg: images.memoryBlur,
+    sound: sounds.memory,
+    text: "Ты пытаешься удержать их, но они тают, как дым...",
+    storyteller: { name: "Storyteller" },
+  },
+
+  {
+    groupId: "chapter2",
+    id: "chapter2_16",
+    backgroundImg: images.tableClose,
+    sound: sounds.memory,
+    text: "Ты возвращаешься в реальность. Мягкий свет падает на книгу в тёмно-зелёном переплёте на столе.",
+    storyteller: { name: "Storyteller" },
+    actions: [
+      {
+        id: "chapter2_act_7",
+        text: "Осмотреть книгу",
+      },
+    ],
+  },
+
+  {
+    groupId: "chapter2",
+    id: "chapter2_17",
+    backgroundImg: images.memoryBlur,
+    text: "Внутри что-то будто подсказывает — здесь спрятана тайна, которую нужно разгадать.",
+    storyteller: { name: "Storyteller" },
+    actions: [
+      {
+        id: "chapter2_act_7",
+        text: "Осмотреть книгу",
+      },
+    ],
+  },
+
+  {
+    groupId: "chapter2",
+    id: "chapter2_18",
+    backgroundImg: images.corridor,
+    text: "Переплёт покрыт странными символами — смесью рун и знаков древнего языка, напоминающего тебе эльфийский.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+  },
+  {
+    groupId: "chapter2",
+    id: "chapter2_19",
+    backgroundImg: images.corridor,
+    text: "Ты проводишь пальцами по обложке и она едва заметно дрожит, словно отзываясь на прикосновение. В следующее мгновение книга внезапно раскрывается сама.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+  },
+  {
+    groupId: "chapter2",
+    id: "chapter2_20",
+    backgroundImg: images.room,
+    text: "Буквы на страницах оживают и начинают складываться в строки на смутно знакомом тебе языке.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+  },
+  {
+    groupId: "chapter2",
+    id: "chapter2_21",
+    backgroundImg: images.room,
+    text: "Это не эльфийский, как показалось сначала... Это древний немецкий.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+  },
+  {
+    groupId: "chapter2",
+    id: "chapter2_22",
+    backgroundImg: images.room,
+    text: `"Древний немецкий?.. Откуда я его вообще знаю?.."`,
+    sound: sounds.wake,
+    storyteller: { name: "Player" },
+  },
+  {
+    groupId: "chapter2",
+    id: "chapter2_23",
+    backgroundImg: images.room,
+    text: `Голос из темноты прерывает твои мысли: <i>"BEOBACHTEN... LERNEN... WACHSEN..."</i>`,
+    puzzle: {
+      id: "chapter2_puzzle_0",
+      type: "sentence",
+      nextSceneId: "chapter2_27",
+    },
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+    actions: [
+      {
+        id: "chapter2_act_7",
+        text: "Попытаться прочитать",
+      },
+    ],
+  },
+  {
+    groupId: "chapter2",
+    id: "chapter2_24",
+    backgroundImg: images.room,
+    text: `Слова вспыхивают мягким золотым светом и складываются в новую фразу: <i>"FOLGE DER GOLDENEN MAUS."</i>`,
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+    duration: 5000,
+  },
+  {
+    groupId: "chapter2",
+    id: "chapter2_25",
+    backgroundImg: images.room,
+    text: "Ты чувствуешь лёгкое движение в кармане...",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+    actions: [
+      {
+        id: "chapter2_act_8",
+        text: "Проверить карман",
+      },
+    ],
+  },
+  {
+    groupId: "chapter2",
+    id: "chapter2_26",
+    backgroundImg: images.room,
+    text: "Доставая фигурку, ты видишь, как она оживает на твоей ладоне.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+  },
+  {
+    groupId: "chapter2",
+    id: "chapter2_27",
+    backgroundImg: images.room,
+    text: "Мышь спрыгивает на пол и бежит в дальнюю часть комнаты.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+    actions: [
+      {
+        id: "chapter2_act_9",
+        text: "Следовать за ней",
+      },
+    ],
+  },
+  {
+    groupId: "chapter2",
+    id: "chapter2_28",
+    backgroundImg: images.room,
+    text: "Ты идёшь следом и видишь, как каменная плита в стене медленно сдвигается, открывая узкий проход вниз.",
+    sound: sounds.wake,
+    storyteller: { name: "Storyteller" },
+
+    actions: [
+      {
+        id: "chapter2_act_10",
+        text: "Спуститься вниз",
+      },
+    ],
+  },
+
   // ===== CHAPTER 3 =====
   {
     groupId: "chapter_3",
@@ -651,7 +672,7 @@ export const story: SceneType[] = [
     backgroundImg: images.corridor,
     sound: sounds.paper,
     // text: "Ты читаешь записи о жизни и экспериментах в этом месте, о попытках подчинить древнюю магию.",
-    text: "Ты читаешь записи о попытках подчинить древнюю магию... и о страхе, что сила вот-вот вырвется из-под контроля.",
+    text: "Ты читаешь о попытках подчинить древнюю магию… и о страхе, что сила вот-вот выйдет из-под контроля.",
     storyteller: { name: "Storyteller" },
   },
 
@@ -787,7 +808,7 @@ export const story: SceneType[] = [
     id: "chapter3_23",
     backgroundImg: images.corridor,
     sound: sounds.silence,
-    text: "Свет меркнет. Скорпион замирает. Но под панцирем что-то начинает мерцать.",
+    text: "Свет меркнет. Скорпион замирает... но под панцирем начинает мерцать тусклый огонёк.",
     storyteller: { name: "Storyteller" },
   },
 

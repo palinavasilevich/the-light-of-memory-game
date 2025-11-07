@@ -8,10 +8,10 @@ import React, {
 import { motion, AnimatePresence } from "framer-motion";
 
 type Props = {
-  onComplete?: () => void;
+  onSolved?: () => void;
 };
 
-export const PuzzleLantern: React.FC<Props> = ({ onComplete }) => {
+export const PuzzleLantern: React.FC<Props> = ({ onSolved }) => {
   const [angles, setAngles] = useState([0, 0, 0]); // углы зеркал
   const [attempts, setAttempts] = useState(0);
   const [isSolved, setIsSolved] = useState(false);
@@ -78,7 +78,7 @@ export const PuzzleLantern: React.FC<Props> = ({ onComplete }) => {
     if (hit && !completedRef.current) {
       completedRef.current = true;
       setIsSolved(true);
-      setTimeout(() => onComplete?.(), 1200);
+      setTimeout(() => onSolved?.(), 1200);
     } else if (!hit) {
       setIsSolved(false);
       completedRef.current = false;

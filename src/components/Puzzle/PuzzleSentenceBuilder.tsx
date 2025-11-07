@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { SENTENCES } from "../../constants/game";
 
 interface PuzzleSentenceBuilderProps {
-  onSolved: (result?: any) => void;
+  // onSolved: (result?: any) => void;
+  onSolved: () => void;
 }
 
 export const PuzzleSentenceBuilder: React.FC<PuzzleSentenceBuilderProps> = ({
@@ -41,7 +42,8 @@ export const PuzzleSentenceBuilder: React.FC<PuzzleSentenceBuilderProps> = ({
           setSelected([]);
           setIsCorrect(null);
         } else {
-          onSolved({ success: true });
+          // onSolved({ success: true });
+          onSolved();
         }
       }, 1200);
     } else {
@@ -54,7 +56,7 @@ export const PuzzleSentenceBuilder: React.FC<PuzzleSentenceBuilderProps> = ({
   };
 
   return (
-    <div className="relative p-6 bg-[#1b1b1f] text-gray-100 rounded-xl shadow-[0_0_15px_rgba(255,215,0,0.1)] overflow-hidden max-w-xl mx-auto">
+    <div className="relative p-6 bg-[#1b1b1f] text-gray-100 rounded-xl shadow-[0_0_15px_rgba(255,215,0,0.1)] overflow-hidden w-md m-auto">
       {/* 🔥 Вспышка при успехе */}
       <AnimatePresence>
         {isCorrect && (
@@ -70,7 +72,7 @@ export const PuzzleSentenceBuilder: React.FC<PuzzleSentenceBuilderProps> = ({
       </AnimatePresence>
 
       <h2 className="text-xl font-semibold mb-2 text-amber-400 text-center">
-        🧩 Собери предложение
+        🧩 Bilde einen Satz aus den Wörtern
       </h2>
       <p className="text-gray-400 mb-4 italic text-center">
         ({sentence.translation})
@@ -84,7 +86,7 @@ export const PuzzleSentenceBuilder: React.FC<PuzzleSentenceBuilderProps> = ({
             onClick={() => handleSelect(word)}
             whileTap={{ scale: 0.9 }}
             whileHover={{ scale: 1.05 }}
-            className={`px-3 py-1 rounded-lg border transition-colors duration-200 ${
+            className={`px-3 py-1 rounded-lg border transition-color  duration-200 ${
               selected.includes(word)
                 ? "bg-amber-600 border-amber-500 shadow-[0_0_8px_rgba(255,200,0,0.4)]"
                 : "bg-gray-800 border-gray-700 hover:bg-gray-700"
@@ -117,9 +119,9 @@ export const PuzzleSentenceBuilder: React.FC<PuzzleSentenceBuilderProps> = ({
           onClick={handleCheck}
           disabled={selected.length === 0}
           whileTap={{ scale: 0.95 }}
-          className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+          className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 cursor-pointer"
         >
-          Проверить
+          Überprüfen
         </motion.button>
       </div>
 

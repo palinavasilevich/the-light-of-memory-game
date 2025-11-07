@@ -90,7 +90,7 @@ export function StoryScene() {
     <GameLayout backgroundImg={current.backgroundImg} sceneKey={current.id}>
       <TextTyper
         text={current.text ?? ""}
-        speed={35}
+        speed={40}
         onComplete={handleTypingDone}
       />
 
