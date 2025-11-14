@@ -43,7 +43,7 @@ export const GameLayout: React.FC<Props> = ({
       {/* <div className="absolute inset-0 bg-linear-to-b from-black/70 via-black/50 to-black/90" /> */}
       <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/20 to-black/60" />
 
-      <div className="z-10 w-full max-w-2xl px-6 py-8 text-shadow-lg ">
+      <div className="z-10 w-full max-w-3xl px-6 py-8 text-shadow-lg ">
         <AnimatePresence mode="wait">
           <motion.div
             key={sceneKey}
