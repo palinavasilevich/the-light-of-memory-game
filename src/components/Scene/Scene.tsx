@@ -122,6 +122,5 @@ export function StoryScene() {
         )}
       </div>
     </GameLayout>
-    // <PuzzleLantern onSolved={() => {}} />
   );
 }

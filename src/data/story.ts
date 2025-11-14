@@ -972,19 +972,19 @@ export const story: SceneType[] = [
   //   storyteller: { name: "Storyteller" },
   // },
 
-  // // --- Пазл: Настрой свет ---
-  // {
-  //   groupId: "chapter_4",
-  //   id: "chapter_4_10",
-  //   backgroundImg: fourthChapterImages.mirror,
-  //   text: `Кажется, зеркала — часть какого-то древнего механизма.`,
-  //   puzzle: {
-  //     id: "chapter4_puzzle_0",
-  //     type: "lantern",
-  //     nextSceneId: "chapter_4_11",
-  //   },
-  //   storyteller: { name: "Storyteller" },
-  // },
+  // --- Пазл: Настрой свет ---
+  {
+    groupId: "chapter_4",
+    id: "chapter_4_10",
+    backgroundImg: fourthChapterImages.mirror,
+    text: `Кажется, зеркала — часть какого-то древнего механизма.`,
+    puzzle: {
+      id: "chapter4_puzzle_0",
+      type: "lantern",
+      nextSceneId: "chapter_4_11",
+    },
+    storyteller: { name: "Storyteller" },
+  },
 
   {
     groupId: "chapter_4",
@@ -1189,5 +1189,6 @@ export const story: SceneType[] = [
     // text: `"„Manchmal endet eine Geschichte…<br/>nur damit eine andere beginnen kann.“<br/><br/><i>Иногда одна история заканчивается… лишь для того, чтобы началась другая.</i>"`,
     text: `<i>"Manchmal endet eine Geschichte...<br/>nur damit eine andere beginnen kann."</i>`,
     storyteller: { name: "Storyteller" },
+    isEndOfGame: true,
   },
 ];

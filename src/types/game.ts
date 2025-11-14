@@ -45,4 +45,6 @@ export type SceneType = {
   conditions?: Condition[]; // условия для перехода
   showAvailableActions?: boolean;
   nextSceneId?: string;
+
+  isEndOfGame?: boolean;
 };
