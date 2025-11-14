@@ -15,16 +15,14 @@ export interface PuzzleProps {
 }
 
 export const Puzzle: React.FC<PuzzleProps> = ({ puzzleType, onSolved }) => {
-  let content;
-
   if (puzzleType === "sentence") {
-    content = <PuzzleSentenceBuilder onSolved={onSolved} />;
+    return <PuzzleSentenceBuilder onSolved={onSolved} />;
   } else if (puzzleType === "scorpion") {
-    content = <PuzzleScorpion onSolved={onSolved} />;
+    return <PuzzleScorpion onSolved={onSolved} />;
   } else if (puzzleType === "lantern") {
-    content = <PuzzleLantern key="puzzle-lantern" onSolved={onSolved} />;
+    return <PuzzleLantern key="puzzle-lantern" onSolved={onSolved} />;
   } else {
-    content = (
+    return (
       <div className="p-6 bg-gray-900 text-gray-200 rounded-xl text-center">
         <p>⚙️ This type of mini-game is not yet implemented.</p>
         <button
@@ -36,6 +34,4 @@ export const Puzzle: React.FC<PuzzleProps> = ({ puzzleType, onSolved }) => {
       </div>
     );
   }
-
-  return <div className="flex h-screen">{content}</div>;
 };

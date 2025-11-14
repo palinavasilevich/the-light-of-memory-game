@@ -25,11 +25,18 @@
   left: 2px;
   right: 2px;
   bottom: 2px;
-  background: radial-gradient(
+  /* background: radial-gradient(
     circle,
     rgb(30, 28, 52) 0%,
     rgb(3, 3, 28) 44%,
     rgba(10, 10, 56, 1) 83%
+  ); */
+
+  background: radial-gradient(
+    circle,
+    rgb(0, 0, 0) 0%,
+    rgb(0, 0, 0) 0%,
+    rgba(0, 0, 20, 1) 50%
   );
 
   clip-path: polygon(92% 0, 100% 25%, 100% 100%, 8% 100%, 0% 75%, 0 0);
@@ -43,11 +50,18 @@
   bottom: -1.2px;
   right: 8%;
   padding: 0 5px;
-  background: radial-gradient(
+  /* background: radial-gradient(
     circle,
     rgb(30, 28, 52) 0%,
     rgb(3, 3, 28) 44%,
     rgba(10, 10, 56, 1) 83%
+  ); */
+
+  background: radial-gradient(
+    circle,
+    rgb(0, 0, 0) 0%,
+    rgb(0, 0, 0) 0%,
+    rgba(0, 0, 20, 1) 50%
   );
   z-index: 5;
 }

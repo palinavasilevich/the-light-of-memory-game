@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { SENTENCES } from "../../constants/game";
 
 interface PuzzleSentenceBuilderProps {
-  // onSolved: (result?: any) => void;
   onSolved: () => void;
 }
 
@@ -11,29 +10,29 @@ export const PuzzleSentenceBuilder: React.FC<PuzzleSentenceBuilderProps> = ({
   onSolved,
 }) => {
   const [current, setCurrent] = useState(0);
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<number[]>([]);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   const sentence = SENTENCES[current];
 
-  // const words = useMemo(() => {
-  //   const split = sentence.german.split(" ");
-  //   return split.sort(() => Math.random() - 0.5);
-  // }, [current, sentence.german]);
-
+  // Разбиваем на объекты { id, text }
   const words = useMemo(() => {
-    const split = sentence.german.split(" ");
-    return split.sort(() => Math.random() - 0.5);
+    return sentence.german
+      .split(" ")
+      .map((w, i) => ({ id: i, text: w }))
+      .sort(() => Math.random() - 0.5);
   }, [sentence.german]);
 
-  const handleSelect = (word: string) => {
+  const handleSelect = (id: number) => {
     setSelected((prev) =>
-      prev.includes(word) ? prev.filter((w) => w !== word) : [...prev, word]
+      prev.includes(id) ? prev.filter((w) => w !== id) : [...prev, id]
     );
   };
 
   const handleCheck = () => {
-    const assembled = selected.join(" ");
+    const assembled = selected
+      .map((id) => words.find((w) => w.id === id)?.text)
+      .join(" ");
     if (assembled === sentence.german) {
       setIsCorrect(true);
       setTimeout(() => {
@@ -42,7 +41,6 @@ export const PuzzleSentenceBuilder: React.FC<PuzzleSentenceBuilderProps> = ({
           setSelected([]);
           setIsCorrect(null);
         } else {
-          // onSolved({ success: true });
           onSolved();
         }
       }, 1200);
@@ -56,13 +54,13 @@ export const PuzzleSentenceBuilder: React.FC<PuzzleSentenceBuilderProps> = ({
   };
 
   return (
-    <div className="relative p-6 bg-[#1b1b1f] text-gray-100 rounded-xl shadow-[0_0_15px_rgba(255,215,0,0.1)] overflow-hidden w-md m-auto">
-      {/* 🔥 Вспышка при успехе */}
+    <div className="relative h-full w-full">
+      {/* Вспышка при успехе */}
       <AnimatePresence>
         {isCorrect && (
           <motion.div
             key="flash"
-            className="absolute inset-0 bg-yellow-300/30 pointer-events-none"
+            className="absolute inset-0 bg-green-500/50 pointer-events-none"
             initial={{ opacity: 0 }}
             animate={{ opacity: [0, 1, 0] }}
             exit={{ opacity: 0 }}
@@ -78,26 +76,26 @@ export const PuzzleSentenceBuilder: React.FC<PuzzleSentenceBuilderProps> = ({
         ({sentence.translation})
       </p>
 
-      {/* 💬 Область выбора */}
+      {/* Область выбора */}
       <div className="flex flex-wrap gap-2 mb-4 justify-center">
         {words.map((word, i) => (
           <motion.button
-            key={i}
-            onClick={() => handleSelect(word)}
+            key={word.id}
+            onClick={() => handleSelect(word.id)}
             whileTap={{ scale: 0.9 }}
             whileHover={{ scale: 1.05 }}
-            className={`px-3 py-1 rounded-lg border transition-color  duration-200 ${
-              selected.includes(word)
+            className={`px-3 py-1 rounded-lg border transition-color duration-200 ${
+              selected.includes(word.id)
                 ? "bg-amber-600 border-amber-500 shadow-[0_0_8px_rgba(255,200,0,0.4)]"
                 : "bg-gray-800 border-gray-700 hover:bg-gray-700"
             }`}
           >
-            {word}
+            {word.text}
           </motion.button>
         ))}
       </div>
 
-      {/* ✨ Собранное предложение */}
+      {/* Собранное предложение */}
       <motion.div
         key={selected.join(" ")}
         initial={{ opacity: 0 }}
@@ -110,10 +108,13 @@ export const PuzzleSentenceBuilder: React.FC<PuzzleSentenceBuilderProps> = ({
             : "text-amber-200"
         }`}
       >
-        {selected.join(" ")}
+        {selected
+          .map((id) => words.find((w) => w.id === id)?.text)
+          .filter(Boolean)
+          .join(" ")}
       </motion.div>
 
-      {/* ⚙️ Кнопки */}
+      {/* Кнопки */}
       <div className="flex justify-center gap-3">
         <motion.button
           onClick={handleCheck}
@@ -125,12 +126,12 @@ export const PuzzleSentenceBuilder: React.FC<PuzzleSentenceBuilderProps> = ({
         </motion.button>
       </div>
 
-      {/* 📜 Прогресс */}
+      {/* Прогресс */}
       <div className="mt-4 text-sm text-center text-gray-400">
         {current + 1} / {SENTENCES.length}
       </div>
 
-      {/* 💥 Ошибка */}
+      {/* Ошибка */}
       <AnimatePresence>
         {isCorrect === false && (
           <motion.div

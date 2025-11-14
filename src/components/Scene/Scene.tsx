@@ -6,6 +6,7 @@ import { Puzzle } from "../Puzzle/Puzzle";
 import { GameLayout } from "../Layout/GameLayout";
 import { useGameStore } from "../../store/gameStore";
 import type { SceneType } from "../../types/game";
+import { PuzzleLantern } from "../Puzzle/PuzzleLantern";
 
 export function StoryScene() {
   const [index, setIndex] = useState(0);
@@ -58,7 +59,6 @@ export function StoryScene() {
     else handleNext();
   }, [current, goToSceneById, handleNext]);
 
-  // Обновляем доступные действия для сцен с несколькими действиями
   useEffect(() => {
     if (!current) return;
     if (current.actions && current.actions.length > 1) {
@@ -68,23 +68,27 @@ export function StoryScene() {
 
   if (!current) return <div>Loading...</div>;
 
-  // Если мини-игра активна — показываем Puzzle
   if (isInPuzzle && current.puzzle) {
     return (
-      <Puzzle puzzleType={current.puzzle.type} onSolved={handleSolvedPuzzle} />
+      <GameLayout backgroundImg={current.backgroundImg} sceneKey={current.id}>
+        <Puzzle
+          puzzleType={current.puzzle.type}
+          onSolved={handleSolvedPuzzle}
+        />
+      </GameLayout>
     );
   }
 
-  // Отображаем доступные действия (те, которые ещё не выполнены)
   const actionsToShow = current.showAvailableActions
     ? availableActions
     : current.actions;
 
-  // Проверяем, нужно ли показывать кнопку Continue
   const showContinueButton =
     !isInPuzzle &&
     !isTyping &&
-    (!actionsToShow || actionsToShow.length === 0 || current.puzzle);
+    (!actionsToShow ||
+      actionsToShow.length === 0 ||
+      (current.puzzle && !current.actions));
 
   return (
     <GameLayout backgroundImg={current.backgroundImg} sceneKey={current.id}>
@@ -114,11 +118,10 @@ export function StoryScene() {
             )}
           </>
         ) : (
-          <div className="mt-3 text-gray-400 text-sm italic animate-pulse">
-            ...
-          </div>
+          <div className="mt-3 text-gray-400 text-sm italic animate-pulse"></div>
         )}
       </div>
     </GameLayout>
+    // <PuzzleLantern onSolved={() => {}} />
   );
 }

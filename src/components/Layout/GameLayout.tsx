@@ -31,7 +31,7 @@ export const GameLayout: React.FC<Props> = ({
           src={backgroundImg}
           alt="background"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.5 }}
+          animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1.5 }}
           className="absolute inset-0 w-full h-full object-cover"
@@ -40,9 +40,10 @@ export const GameLayout: React.FC<Props> = ({
 
       <AmbientParticles />
 
-      <div className="absolute inset-0 bg-linear-to-b from-black/70 via-black/50 to-black/90" />
+      {/* <div className="absolute inset-0 bg-linear-to-b from-black/70 via-black/50 to-black/90" /> */}
+      <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/20 to-black/60" />
 
-      <div className="z-10 w-full max-w-3xl px-6 py-8 text-shadow-lg ">
+      <div className="z-10 w-full max-w-2xl px-6 py-8 text-shadow-lg ">
         <AnimatePresence mode="wait">
           <motion.div
             key={sceneKey}
@@ -50,7 +51,7 @@ export const GameLayout: React.FC<Props> = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.8 }}
-            className="bg-black/60 backdrop-blur-md rounded-2xl shadow-2xl p-6 border border-white/10 flex flex-col items-center"
+            className="bg-black/60 backdrop-blur-md rounded-2xl shadow-2xl p-12 border border-white/10 flex flex-col items-center"
           >
             {children}
           </motion.div>

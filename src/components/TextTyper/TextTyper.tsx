@@ -58,5 +58,10 @@ export function TextTyper({ text, speed = 35, onComplete }: TextTyperProps) {
     };
   }, [text, speed]);
 
-  return <p className="text-xl text-center">{displayed}</p>;
+  return (
+    <p
+      className="text-xl text-center"
+      dangerouslySetInnerHTML={{ __html: displayed }}
+    />
+  );
 }

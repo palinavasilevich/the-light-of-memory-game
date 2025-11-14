@@ -9,7 +9,7 @@ type Props = {
   onSolved: (result?: any) => void;
 };
 
-export function PuzzleScorpion({ rows = 3, cols = 3, onSolved }: Props) {
+export function PuzzleScorpion({ rows = 4, cols = 4, onSolved }: Props) {
   const totalPieces = rows * cols;
   const [positions, setPositions] = useState<number[]>([]);
   const [moves, setMoves] = useState(0);
