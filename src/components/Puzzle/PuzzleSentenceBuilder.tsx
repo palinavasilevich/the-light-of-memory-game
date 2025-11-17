@@ -60,7 +60,7 @@ export const PuzzleSentenceBuilder: React.FC<PuzzleSentenceBuilderProps> = ({
         {isCorrect && (
           <motion.div
             key="flash"
-            className="absolute inset-0 bg-green-500/50 pointer-events-none"
+            className="fixed inset-0 z-999 bg-green-500/40 pointer-events-none rounded-2xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: [0, 1, 0] }}
             exit={{ opacity: 0 }}
@@ -78,7 +78,7 @@ export const PuzzleSentenceBuilder: React.FC<PuzzleSentenceBuilderProps> = ({
 
       {/* Область выбора */}
       <div className="flex flex-wrap gap-2 mb-4 justify-center">
-        {words.map((word, i) => (
+        {words.map((word) => (
           <motion.button
             key={word.id}
             onClick={() => handleSelect(word.id)}
@@ -136,7 +136,7 @@ export const PuzzleSentenceBuilder: React.FC<PuzzleSentenceBuilderProps> = ({
         {isCorrect === false && (
           <motion.div
             key="error"
-            className="absolute inset-0 bg-red-600/10 backdrop-blur-[1px]"
+            className="fixed inset-0 z-999 bg-red-600/20 backdrop-blur-[2px] pointer-events-none rounded-2xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: [0, 1, 0] }}
             exit={{ opacity: 0 }}

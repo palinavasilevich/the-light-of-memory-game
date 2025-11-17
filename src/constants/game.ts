@@ -5,14 +5,21 @@ export type SentenceType = {
 
 export const SENTENCES: Array<SentenceType> = [
   // {
-  //   german: "Ich ging an der Tür vorbei und riskierte damit einen Anfall",
+  //   german: "Ich ging an der Tür vorbei und provozierte einen Gelegenheitsangriff",
   //   translation: "Шла мимо двери и спровоцировала атаку по возможности",
   // },
   // {
   //   german:
-  //     "Erinnerst du dich an die Schmerzen in meiner Seite? Wir dachten, es wäre eine Blinddarmentzündung, aber es war Sonntag",
+  //     "Welche Farbe hatte die Katze? Die Farbe eines Spatzen",
   //   translation:
-  //     "Помнишь, мне болел бок? Мы думали, что это был аппендицит, а это было воскресенье",
+  //     "Какого цвета был кот? Цвета воробья",
+  // },
+
+  // {
+  //   german:
+  //     "Habe ich Bauchmuskeln? Oder ist es Pizza?",
+  //   translation:
+  //     "У меня есть пресс? Или это пицца?",
   // },
   {
     german: "Ich sitze und esse, und in meiner Kiste ist ein Vogel",

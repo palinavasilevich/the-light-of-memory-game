@@ -1,167 +1,193 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
- * LaserPuzzle.tsx
+ * LaserPuzzleGame.tsx
  *
- * Grid laser puzzle (10x10) — React + TypeScript + Canvas.
+ * - Grid: 20 x 12
+ * - 3 mirrors (fixed orientations '/' or '\'), pushable by the hero (Sokoban-style)
+ * - Source: scorpion.png at fixed pos, emits green grid-aligned laser to the right initially
+ * - Hero: hero.png sprite (fallback circle)
+ * - Crystal: crystal.png, rises / glows when laser hits
+ * - Tailwind used for UI (buttons, layout). Canvas used for drawing.
  *
  * Controls:
- * - Arrow keys or WASD to move hero and push mirrors
- * - Buttons: Reset, Hint
+ * - Arrow keys or WASD to move and push mirrors
+ * - Reset button
  *
- * Grid coords: (0,0) top-left. x grows right, y grows down.
- *
- * Initial layout (chosen):
- * - Source (moon) at (0,5) pointing right
- * - Crystal at (9,3)
- * - Hero at (3,6)
- * - Mirrors:
- *    { x:4,y:5, type: "/" }
- *    { x:5,y:4, type: "\" }
- *    { x:6,y:3, type: "/" }
+ * Notes:
+ * - All coordinates are integers on grid cells
+ * - Laser is grid-based (only cardinal directions): correct and stable
  */
 
-type Pos = { x: number; y: number };
-type Mirror = { x: number; y: number; type: "/" | "\\" };
-
-const GRID_W = 10;
-const GRID_H = 10;
-const CELL = 60; // px cell size
+const GRID_W = 20;
+const GRID_H = 12;
+const CELL = 48; // px per cell (tweak if you want bigger)
 const CANVAS_W = GRID_W * CELL;
 const CANVAS_H = GRID_H * CELL;
 
-const source = { pos: { x: 0, y: 5 }, dir: { x: 1, y: 0 } }; // starts pointing right
-const crystalPos = { x: 9, y: 3 };
-const initialHero = { x: 3, y: 6 };
-const initialMirrors: Mirror[] = [
-  { x: 4, y: 5, type: "/" },
-  { x: 5, y: 4, type: "\\" },
-  { x: 6, y: 3, type: "/" },
+type Pos = { x: number; y: number };
+type Mirror = { x: number; y: number; kind: "/" | "\\" };
+
+const SOURCE: { pos: Pos; dir: Pos } = {
+  pos: { x: 1, y: 6 },
+  dir: { x: 1, y: 0 },
+}; // scorpion -> right
+const CRYSTAL_POS: Pos = { x: 18, y: 4 };
+
+// initial hero + 3 mirrors
+const INITIAL_HERO: Pos = { x: 4, y: 8 };
+const INITIAL_MIRRORS: Mirror[] = [
+  { x: 7, y: 6, kind: "/" },
+  { x: 10, y: 4, kind: "\\" },
+  { x: 13, y: 6, kind: "/" },
 ];
 
-const DIRS: Record<string, Pos> = {
-  up: { x: 0, y: -1 },
-  down: { x: 0, y: 1 },
-  left: { x: -1, y: 0 },
-  right: { x: 1, y: 0 },
-};
-
-function inBounds(p: Pos) {
-  return p.x >= 0 && p.x < GRID_W && p.y >= 0 && p.y < GRID_H;
-}
-
-function posEq(a: Pos, b: Pos) {
-  return a.x === b.x && a.y === b.y;
-}
-
-// reflect mapping for grid directions (cardinal) when hitting mirror types
-const reflectMap: Record<string, Record<string, Pos>> = {
-  "/": {
-    "1,0": { x: 0, y: -1 }, // right -> up
-    "0,-1": { x: 1, y: 0 }, // up -> right
-    "-1,0": { x: 0, y: 1 }, // left -> down
-    "0,1": { x: -1, y: 0 }, // down -> left
-  },
-  "\\": {
-    "1,0": { x: 0, y: 1 }, // right -> down
-    "0,1": { x: 1, y: 0 }, // down -> right
-    "-1,0": { x: 0, y: -1 }, // left -> up
-    "0,-1": { x: -1, y: 0 }, // up -> left
-  },
-};
-
-type Props = {
-  onSolved: () => void;
-};
+type Props = { onSolved?: () => void };
 
 export function PuzzleLantern({ onSolved }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
+  const [heroCell, setHeroCell] = useState<Pos>({ ...INITIAL_HERO });
+  const heroScreen = useRef<{ x: number; y: number }>({
+    x: heroCell.x * CELL,
+    y: heroCell.y * CELL,
+  }); // for lerp
+  const heroTargetRef = useRef<Pos>({ ...INITIAL_HERO });
+
   const [mirrors, setMirrors] = useState<Mirror[]>(() =>
-    initialMirrors.map((m) => ({ ...m }))
+    INITIAL_MIRRORS.map((m) => ({ ...m }))
   );
-  const [hero, setHero] = useState<Pos>(() => ({ ...initialHero }));
   const [attempts, setAttempts] = useState<number>(0);
-  const [solved, setSolved] = useState<boolean>(false);
+  const solvedRef = useRef(false);
+  const [solved, setSolved] = useState(false);
 
-  // find mirror at cell
-  const mirrorAt = useCallback(
-    (p: Pos) => mirrors.find((m) => m.x === p.x && m.y === p.y),
-    [mirrors]
-  );
+  // images
+  const scorpionImg = useRef<HTMLImageElement | null>(null);
+  const heroImg = useRef<HTMLImageElement | null>(null);
+  const crystalImg = useRef<HTMLImageElement | null>(null);
+  const imagesLoaded = useRef({ scorpion: false, hero: false, crystal: false });
 
-  // whether a cell is free for pushing/moving (not mirror, not source, not crystal)
-  const cellFree = useCallback(
-    (p: Pos) => {
-      if (!inBounds(p)) return false;
-      if (p.x === source.pos.x && p.y === source.pos.y) return false;
-      if (p.x === crystalPos.x && p.y === crystalPos.y) return false;
-      if (mirrorAt(p)) return false;
-      return true;
-    },
-    [mirrorAt]
-  );
+  useEffect(() => {
+    const s = new Image();
+    s.src = "/scorpion.png";
+    s.onload = () => {
+      scorpionImg.current = s;
+      imagesLoaded.current.scorpion = true;
+    };
+    s.onerror = () => {
+      imagesLoaded.current.scorpion = false;
+    };
 
-  // compute beam path discrete (grid steps). returns array of positions (cells) and hit boolean
-  const computeBeam = useCallback(() => {
+    const h = new Image();
+    h.src = "/hero.png";
+    h.onload = () => {
+      heroImg.current = h;
+      imagesLoaded.current.hero = true;
+    };
+    h.onerror = () => {
+      imagesLoaded.current.hero = false;
+    };
+
+    const c = new Image();
+    c.src = "/crystal.png";
+    c.onload = () => {
+      crystalImg.current = c;
+      imagesLoaded.current.crystal = true;
+    };
+    c.onerror = () => {
+      imagesLoaded.current.crystal = false;
+    };
+
+    // keep refs assigned even if not loaded
+    scorpionImg.current = scorpionImg.current ?? s;
+    heroImg.current = heroImg.current ?? h;
+    crystalImg.current = crystalImg.current ?? c;
+  }, []);
+
+  // helpers
+  const inBounds = (p: Pos) =>
+    p.x >= 0 && p.x < GRID_W && p.y >= 0 && p.y < GRID_H;
+  const posEq = (a: Pos, b: Pos) => a.x === b.x && a.y === b.y;
+  const mirrorAt = (p: Pos) => mirrors.find((m) => m.x === p.x && m.y === p.y);
+  const cellFree = (p: Pos) =>
+    inBounds(p) &&
+    !mirrorAt(p) &&
+    !posEq(p, SOURCE.pos) &&
+    !posEq(p, CRYSTAL_POS);
+
+  // grid-based beam trace: returns path (array of cell centers) and hit boolean
+  function traceBeam(): { path: Pos[]; hit: boolean } {
     const path: Pos[] = [];
-    let pos = { ...source.pos };
-    let dir = { ...source.dir };
-    path.push({ ...pos });
+    let p = { ...SOURCE.pos };
+    let dir = { ...SOURCE.dir };
 
-    const MAX_STEPS = 500;
-    for (let step = 0; step < MAX_STEPS; step++) {
-      pos = { x: pos.x + dir.x, y: pos.y + dir.y };
-      path.push({ ...pos });
+    path.push({ ...p });
+    const MAX_STEPS = 1000;
+    for (let i = 0; i < MAX_STEPS; i++) {
+      p = { x: p.x + dir.x, y: p.y + dir.y };
+      path.push({ ...p });
 
-      if (!inBounds(pos)) break;
+      if (!inBounds(p)) break;
+      if (posEq(p, CRYSTAL_POS)) return { path, hit: true };
 
-      // hit crystal?
-      if (posEq(pos, crystalPos)) {
-        return { path, hit: true };
-      }
-
-      // hit mirror?
-      const m = mirrorAt(pos);
+      const m = mirrorAt(p);
       if (m) {
-        const key = `${dir.x},${dir.y}`;
-        const mapping = reflectMap[m.type][key];
-        if (!mapping) {
-          // if direction not covered (shouldn't happen), stop
-          break;
+        // reflect rules (grid)
+        if (m.kind === "/") {
+          // "/" mapping: right->up, up->right, left->down, down->left
+          if (dir.x === 1 && dir.y === 0) dir = { x: 0, y: -1 };
+          else if (dir.x === 0 && dir.y === -1) dir = { x: 1, y: 0 };
+          else if (dir.x === -1 && dir.y === 0) dir = { x: 0, y: 1 };
+          else if (dir.x === 0 && dir.y === 1) dir = { x: -1, y: 0 };
+        } else {
+          // "\" mapping: right->down, down->right, left->up, up->left
+          if (dir.x === 1 && dir.y === 0) dir = { x: 0, y: 1 };
+          else if (dir.x === 0 && dir.y === 1) dir = { x: 1, y: 0 };
+          else if (dir.x === -1 && dir.y === 0) dir = { x: 0, y: -1 };
+          else if (dir.x === 0 && dir.y === -1) dir = { x: -1, y: 0 };
         }
-        dir = { ...mapping };
         continue;
       }
-
       // else continue
     }
-
     return { path, hit: false };
-  }, [mirrorAt]);
+  }
+
+  // hero lerp params
+  const LERP_SPEED = 0.18; // 0..1, higher = faster
 
   // draw loop
   useEffect(() => {
-    const canvas = canvasRef.current;
+    const canvas = canvasRef.current!;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
+    const ctx = canvas.getContext("2d")!;
     let raf = 0;
+    let last = performance.now();
+    let crystalRise = 0; // 0..1 animation progress when solved
+    function draw(now: number) {
+      const dt = now - last;
+      last = now;
 
-    const draw = () => {
+      // LERP heroScreen towards heroCell
+      const targetX = heroCell.x * CELL;
+      const targetY = heroCell.y * CELL;
+      heroScreen.current.x +=
+        (targetX - heroScreen.current.x) * Math.min(1, LERP_SPEED * (dt / 16));
+      heroScreen.current.y +=
+        (targetY - heroScreen.current.y) * Math.min(1, LERP_SPEED * (dt / 16));
       // clear
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // background
-      const bg = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      bg.addColorStop(0, "#071127");
-      bg.addColorStop(1, "#071a22");
-      ctx.fillStyle = bg;
+      // background gradient
+      const g = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      g.addColorStop(0, "#051323");
+      g.addColorStop(1, "#071a22");
+      ctx.fillStyle = g;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // grid
+      // subtle grid
       ctx.strokeStyle = "rgba(255,255,255,0.03)";
+      ctx.lineWidth = 1;
       for (let i = 0; i <= GRID_W; i++) {
         ctx.beginPath();
         ctx.moveTo(i * CELL, 0);
@@ -175,50 +201,57 @@ export function PuzzleLantern({ onSolved }: Props) {
         ctx.stroke();
       }
 
-      // draw source (moon) with arrow
-      const srcCX = source.pos.x * CELL + CELL / 2;
-      const srcCY = source.pos.y * CELL + CELL / 2;
-      ctx.beginPath();
-      ctx.fillStyle = "#7dd3fc";
-      ctx.shadowColor = "rgba(125,211,252,0.6)";
-      ctx.shadowBlur = 14;
-      ctx.arc(srcCX, srcCY, CELL * 0.2, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.shadowBlur = 0;
-      // arrow
-      ctx.fillStyle = "#022627";
-      ctx.beginPath();
-      // small triangle pointing right
-      ctx.moveTo(srcCX + 12, srcCY);
-      ctx.lineTo(srcCX - 6, srcCY - 6);
-      ctx.lineTo(srcCX - 6, srcCY + 6);
-      ctx.fill();
+      // draw scorpion (source)
+      const scX = SOURCE.pos.x * CELL;
+      const scY = SOURCE.pos.y * CELL;
+      if (
+        imagesLoaded.current.scorpion &&
+        scorpionImg.current &&
+        scorpionImg.current.complete
+      ) {
+        const size = CELL * 0.9;
+        ctx.drawImage(
+          scorpionImg.current,
+          scX + (CELL - size) / 2,
+          scY + (CELL - size) / 2,
+          size,
+          size
+        );
+      } else {
+        // fallback small green circle + arrow
+        const cx = scX + CELL / 2,
+          cy = scY + CELL / 2;
+        ctx.beginPath();
+        ctx.fillStyle = "#6ee7b7";
+        ctx.shadowColor = "rgba(110,231,183,0.5)";
+        ctx.shadowBlur = 14;
+        ctx.arc(cx, cy, CELL * 0.22, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = "#033627";
+        ctx.beginPath();
+        ctx.moveTo(cx + 12, cy);
+        ctx.lineTo(cx - 6, cy - 6);
+        ctx.lineTo(cx - 6, cy + 6);
+        ctx.fill();
+      }
 
-      // draw crystal
-      const cryCX = crystalPos.x * CELL + CELL / 2;
-      const cryCY = crystalPos.y * CELL + CELL / 2;
-      ctx.save();
-      ctx.translate(cryCX, cryCY);
-      ctx.rotate((45 * Math.PI) / 180);
-      ctx.fillStyle = solved ? "#fff1b8" : "#cde7ff";
-      ctx.shadowColor = solved
-        ? "rgba(255,215,120,0.6)"
-        : "rgba(120,170,255,0.12)";
-      ctx.shadowBlur = solved ? 20 : 6;
-      ctx.fillRect(-CELL * 0.18, -CELL * 0.18, CELL * 0.36, CELL * 0.36);
-      ctx.restore();
-      ctx.shadowBlur = 0;
-
-      // draw mirrors
+      // draw mirrors (glow + line)
       mirrors.forEach((m) => {
         const cx = m.x * CELL + CELL / 2;
         const cy = m.y * CELL + CELL / 2;
+        // glow
+        ctx.beginPath();
+        ctx.fillStyle = "rgba(160,180,200,0.04)";
+        ctx.arc(cx, cy, CELL * 0.45, 0, Math.PI * 2);
+        ctx.fill();
+        // mirror stroke
         ctx.save();
         ctx.translate(cx, cy);
         ctx.lineWidth = 6;
         ctx.strokeStyle = "#9aa4b2";
         ctx.beginPath();
-        if (m.type === "/") {
+        if (m.kind === "/") {
           ctx.moveTo(-CELL * 0.25, CELL * 0.25);
           ctx.lineTo(CELL * 0.25, -CELL * 0.25);
         } else {
@@ -229,26 +262,80 @@ export function PuzzleLantern({ onSolved }: Props) {
         ctx.restore();
       });
 
-      // draw hero
-      const heroCX = hero.x * CELL + CELL / 2;
-      const heroCY = hero.y * CELL + CELL / 2;
-      ctx.beginPath();
-      ctx.fillStyle = "#fde68a";
-      ctx.shadowColor = "rgba(253,230,138,0.4)";
-      ctx.shadowBlur = 8;
-      ctx.arc(heroCX, heroCY, CELL * 0.26, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.shadowBlur = 0;
+      // draw crystal (with rise animation if solved)
+      const cryBaseX = CRYSTAL_POS.x * CELL + CELL / 2;
+      const cryBaseY = CRYSTAL_POS.y * CELL + CELL / 2;
+      if (solvedRef.current) {
+        crystalRise = Math.min(1, crystalRise + dt / 700); // ~700ms rise
+      } else {
+        crystalRise = Math.max(0, crystalRise - dt / 400);
+      }
+      const cryY = cryBaseY - crystalRise * CELL * 0.9;
+      if (
+        imagesLoaded.current.crystal &&
+        crystalImg.current &&
+        crystalImg.current.complete
+      ) {
+        const size = CELL * 0.9;
+        ctx.drawImage(
+          crystalImg.current,
+          cryBaseX - size / 2,
+          cryY - size / 2,
+          size,
+          size
+        );
+      } else {
+        ctx.save();
+        ctx.translate(cryBaseX, cryY);
+        ctx.rotate((45 * Math.PI) / 180);
+        ctx.fillStyle = solvedRef.current ? "#dff7dd" : "#cde7ff";
+        ctx.shadowColor = solvedRef.current
+          ? "rgba(160,230,140,0.6)"
+          : "rgba(120,170,255,0.12)";
+        ctx.shadowBlur = solvedRef.current ? 20 : 6;
+        ctx.fillRect(-CELL * 0.18, -CELL * 0.18, CELL * 0.36, CELL * 0.36);
+        ctx.restore();
+        ctx.shadowBlur = 0;
+      }
 
-      // beam
-      const { path, hit } = computeBeam();
+      // draw hero (lerped position)
+      const heroPx = heroScreen.current.x;
+      const heroPy = heroScreen.current.y;
+      if (
+        imagesLoaded.current.hero &&
+        heroImg.current &&
+        heroImg.current.complete
+      ) {
+        const size = CELL * 0.9;
+        ctx.drawImage(
+          heroImg.current,
+          heroPx + (CELL - size) / 2,
+          heroPy + (CELL - size) / 2,
+          size,
+          size
+        );
+      } else {
+        const hc = { x: heroPx + CELL / 2, y: heroPy + CELL / 2 };
+        ctx.beginPath();
+        ctx.fillStyle = "#fde68a";
+        ctx.shadowColor = "rgba(253,230,138,0.4)";
+        ctx.shadowBlur = 8;
+        ctx.arc(hc.x, hc.y, CELL * 0.28, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      // trace beam & draw green laser with glow
+      const { path, hit } = traceBeam();
       ctx.beginPath();
-      ctx.lineWidth = 4;
-      ctx.strokeStyle = hit ? "#fff5b3" : "rgba(255,230,160,0.9)";
+      ctx.lineWidth = 4.5;
+      ctx.strokeStyle = hit ? "#b4fca2" : "#78ffb3";
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
-      ctx.shadowColor = "rgba(255,220,120,0.35)";
-      ctx.shadowBlur = 10;
+      ctx.shadowColor = hit
+        ? "rgba(180,252,162,0.65)"
+        : "rgba(120,255,180,0.35)";
+      ctx.shadowBlur = 14;
       for (let i = 0; i < path.length; i++) {
         const p = path[i];
         const px = p.x * CELL + CELL / 2;
@@ -259,163 +346,147 @@ export function PuzzleLantern({ onSolved }: Props) {
       ctx.stroke();
       ctx.shadowBlur = 0;
 
-      // small nodes
-      ctx.fillStyle = "#fff7d6";
+      // small glowing nodes on beam centers
+      ctx.fillStyle = hit ? "#f4fff8" : "#e6fff0";
       for (let i = 0; i < path.length; i++) {
         const p = path[i];
         const px = p.x * CELL + CELL / 2;
         const py = p.y * CELL + CELL / 2;
         ctx.beginPath();
-        ctx.arc(px, py, 3, 0, Math.PI * 2);
+        ctx.arc(px, py, 2.5, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // HUD: attempts and instructions
-      ctx.fillStyle = "rgba(255,255,255,0.9)";
-      ctx.font = "14px Inter, system-ui, sans-serif";
+      // // HUD text
+      // ctx.fillStyle = "rgba(255,255,255,0.92)";
+      // ctx.font = "13px Inter, system-ui, sans-serif";
       // ctx.fillText(`Attempts: ${attempts}`, 10, 18);
-      ctx.fillStyle = "rgba(255,255,255,0.6)";
-      // ctx.font = "12px Inter, system-ui, sans-serif";
-      // ctx.fillText(`Move: Arrows / WASD — Push mirrors`, 10, 36);
+      // // status
+      // ctx.fillStyle = solvedRef.current ? "#b4fca2" : "rgba(147,197,253,0.9)";
+      // ctx.fillText(solvedRef.current ? "Solved" : "Playing", 10, 36);
 
-      // solved tag
+      // solved detection once
       if (hit) {
-        setSolved(true);
-        onSolved();
+        if (!solvedRef.current) {
+          solvedRef.current = true;
+          setSolved(true);
+          setTimeout(() => onSolved?.(), 700);
+        }
       } else {
-        setSolved(false);
+        if (solvedRef.current) {
+          solvedRef.current = false;
+          setSolved(false);
+        }
       }
 
       raf = requestAnimationFrame(draw);
-    };
+    }
 
     raf = requestAnimationFrame(draw);
     return () => cancelAnimationFrame(raf);
-  }, [mirrors, hero, attempts, computeBeam, solved, onSolved]);
+  }, [mirrors, heroCell, attempts, onSolved]);
 
-  // movement + push logic
+  // movement + push (arrow keys / WASD)
   useEffect(() => {
     const onKey = (ev: KeyboardEvent) => {
-      const key = ev.key;
       let dir: Pos | null = null;
-      if (key === "ArrowUp" || key === "w" || key === "W") dir = DIRS.up;
-      else if (key === "ArrowDown" || key === "s" || key === "S")
-        dir = DIRS.down;
-      else if (key === "ArrowLeft" || key === "a" || key === "A")
-        dir = DIRS.left;
-      else if (key === "ArrowRight" || key === "d" || key === "D")
-        dir = DIRS.right;
+      if (ev.key === "ArrowUp" || ev.key === "w" || ev.key === "W")
+        dir = { x: 0, y: -1 };
+      else if (ev.key === "ArrowDown" || ev.key === "s" || ev.key === "S")
+        dir = { x: 0, y: 1 };
+      else if (ev.key === "ArrowLeft" || ev.key === "a" || ev.key === "A")
+        dir = { x: -1, y: 0 };
+      else if (ev.key === "ArrowRight" || ev.key === "d" || ev.key === "D")
+        dir = { x: 1, y: 0 };
       else return;
 
       ev.preventDefault();
-      if (dir) {
-        const next = { x: hero.x + dir.x, y: hero.y + dir.y };
-        if (!inBounds(next)) return;
-        // cannot step onto source or crystal
-        if (posEq(next, source.pos) || posEq(next, crystalPos)) return;
-        const m = mirrorAt(next);
-        if (!m) {
-          // free => move
-          setHero(next);
-        } else {
-          // try push
-          const pushTo = { x: m.x + dir.x, y: m.y + dir.y };
-          if (!inBounds(pushTo)) return;
-          if (!cellFree(pushTo)) return;
-          // perform push
-          setMirrors((prev) =>
-            prev.map((mm) =>
-              mm.x === m.x && mm.y === m.y
-                ? { ...mm, x: pushTo.x, y: pushTo.y }
-                : mm
-            )
-          );
-          setHero(next);
-        }
+      if (!dir) return;
+
+      const next = { x: heroCell.x + dir.x, y: heroCell.y + dir.y };
+      if (!inBounds(next)) return;
+      // can't step on source or crystal
+      if (posEq(next, SOURCE.pos) || posEq(next, CRYSTAL_POS)) return;
+
+      const m = mirrorAt(next);
+      if (!m) {
+        // move hero
+        heroTargetRef.current = next;
+        setHeroCell(next);
+        setAttempts((a) => a + 1);
+      } else {
+        // try push
+        const pushTo = { x: m.x + dir.x, y: m.y + dir.y };
+        if (!inBounds(pushTo)) return;
+        if (!cellFree(pushTo)) return;
+        setMirrors((prev) =>
+          prev.map((mm) =>
+            mm.x === m.x && mm.y === m.y
+              ? { ...mm, x: pushTo.x, y: pushTo.y }
+              : mm
+          )
+        );
+        heroTargetRef.current = next;
+        setHeroCell(next);
         setAttempts((a) => a + 1);
       }
     };
 
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [hero, mirrorAt, cellFree]);
+  }, [heroCell, mirrors]);
 
-  // Reset and hint
+  // Reset button
   const reset = () => {
-    setMirrors(initialMirrors.map((m) => ({ ...m })));
-    setHero({ ...initialHero });
+    setMirrors(INITIAL_MIRRORS.map((m) => ({ ...m })));
+    setHeroCell({ ...INITIAL_HERO });
+    heroScreen.current = { x: INITIAL_HERO.x * CELL, y: INITIAL_HERO.y * CELL };
+    heroTargetRef.current = { ...INITIAL_HERO };
     setAttempts(0);
+    solvedRef.current = false;
     setSolved(false);
   };
 
-  // const hint = () => {
-  //   // set a working configuration (keeps same for now)
-  //   setMirrors([
-  //     { x: 4, y: 5, type: "/" },
-  //     { x: 5, y: 4, type: "\\" },
-  //     { x: 6, y: 3, type: "/" },
-  //   ]);
-  //   setAttempts((a) => a + 1);
-  // };
-
   return (
-    <div className="inline-block select-none">
-      <div className="relative flex flex-col items-center text-amber-100 p-4">
-        <h3 className="text-xl font-semibold mb-2">
-          🔆 Direct the moonlight to the altar
+    <div className="w-full flex flex-col items-center justify-center gap-3">
+      <div className="flex flex-col items-center justify-center mb-4 gap-3">
+        <h3 className="text-2xl md:text-3xl font-semibold text-amber-100">
+          🔆 Push mirrors to guide the green beam to the crystal
         </h3>
-        <h3 className="text-xl font-semibold mb-2">
-          Move: Arrows / WASD — Push mirrors
-        </h3>
-        {/* <p className="mb-2 text-sm text-amber-300">
-          Attempts: {attempts}
-        </p> */}
+        <p className="text-sm text-slate-300 mt-1">Move with Arrows / WASD</p>
 
-        <button
-          onClick={reset}
-          className="px-3 py-1 rounded bg-amber-600 cursor-pointer"
-        >
-          Restart game
-        </button>
-        {/* <button onClick={hint} style={btnStyle}>
-          Hint
-        </button> */}
-        {/* <div style={{ color: "white", alignSelf: "center", marginLeft: 8 }}>
-          Attempts: {attempts}
-        </div> */}
-        {/* <div
-          style={{
-            color: solved ? "#fde68a" : "#93c5fd",
-            marginLeft: 12,
-            alignSelf: "center",
-          }}
-        >
-          Status: {solved ? "Solved" : "Playing"}
-        </div> */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={reset}
+            className="px-3 py-1 rounded bg-amber-600 hover:bg-amber-500 text-shadow-white font-medium cursor-pointer"
+          >
+            Restart
+          </button>
+          {/* <div className="text-sm text-slate-300">
+              Attempts:{" "}
+              <span className="font-medium text-white">{attempts}</span>
+            </div>
+            <div
+              className={`px-2 py-1 rounded ${
+                solved
+                  ? "bg-green-700 text-green-100"
+                  : "bg-slate-700 text-slate-200"
+              }`}
+            >
+              {solved ? "Solved" : "Playing"}
+            </div> */}
+        </div>
       </div>
 
-      <canvas
-        ref={canvasRef}
-        width={CANVAS_W}
-        height={CANVAS_H}
-        style={{
-          width: CANVAS_W,
-          height: CANVAS_H,
-          borderRadius: 12,
-          display: "block",
-          boxShadow: "0 12px 30px rgba(2,6,23,0.7)",
-        }}
-      />
+      <div className="bg-slate-900/60 rounded-xl p-2 inline-block shadow-xl border border-slate-800">
+        <canvas
+          ref={canvasRef}
+          width={CANVAS_W}
+          height={CANVAS_H}
+          className="block rounded-md w-full h-auto"
+          style={{ aspectRatio: `${CANVAS_W}/${CANVAS_H}` }}
+        />
+      </div>
     </div>
   );
 }
-
-// const btnStyle: React.CSSProperties = {
-//   background: "#0ea5a6",
-//   color: "white",
-//   border: "none",
-//   padding: "8px 12px",
-//   borderRadius: 8,
-//   cursor: "pointer",
-//   boxShadow: "0 6px 14px rgba(14,165,166,0.14)",
-// };

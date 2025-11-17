@@ -60,7 +60,7 @@ export function TextTyper({ text, speed = 35, onComplete }: TextTyperProps) {
 
   return (
     <p
-      className="text-xl text-center"
+      className="text-2xl text-center"
       dangerouslySetInnerHTML={{ __html: displayed }}
     />
   );

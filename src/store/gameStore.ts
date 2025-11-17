@@ -4,6 +4,8 @@ import { create } from "zustand";
 import type { ActionType } from "../types/game";
 
 interface GameState {
+  isSoundEnabled: boolean;
+  toggleSound: () => void;
   availableActions: ActionType[];
   setAvailableActions: (actions: ActionType[]) => void;
   completeAction: (actionId: string) => void;
@@ -11,6 +13,9 @@ interface GameState {
 }
 
 export const useGameStore = create<GameState>((set) => ({
+  isSoundEnabled: true,
+  toggleSound: () => set((s) => ({ isSoundEnabled: !s.isSoundEnabled })),
+
   availableActions: [],
   setAvailableActions: (actions) => set({ availableActions: actions }),
   completeAction: (actionId) =>

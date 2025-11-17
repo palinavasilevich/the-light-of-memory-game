@@ -36,6 +36,7 @@ export type SceneType = {
   text: string;
   // content: Content;
   sound?: string;
+  notSoundLoop?: boolean;
   storyteller?: Storyteller;
   actions?: ActionType[];
   puzzle?: Puzzle;
