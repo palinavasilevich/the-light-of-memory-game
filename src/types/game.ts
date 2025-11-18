@@ -8,6 +8,10 @@ export type ActionType = {
   text: string;
   nextSceneId?: string;
   conditions?: Condition[];
+  extraContent?: {
+    image?: string;
+    text?: string;
+  };
 };
 
 export type Condition = {

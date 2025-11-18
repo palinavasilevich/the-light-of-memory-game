@@ -5,9 +5,10 @@ import { ActionButton } from "../ActionButton/ActionButton";
 import { Puzzle } from "../Puzzle/Puzzle";
 import { GameLayout } from "../Layout/GameLayout";
 import { useGameStore } from "../../store/gameStore";
-import type { SceneType } from "../../types/game";
+import type { ActionType, SceneType } from "../../types/game";
 import { StartScreen } from "../StartScreen/StartScreen";
 import { images } from "../../data/assets";
+import { ExtraContentModal } from "../Modal/ExtraContentModal";
 
 const SILENT_MP3 =
   "data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCAAwACAAAAAAAuQAA";
@@ -17,6 +18,13 @@ export function StoryScene() {
   const [index, setIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(true);
   const [isInPuzzle, setIsInPuzzle] = useState(false);
+  const [extraContentAction, setExtraContentAction] = useState<{
+    nextSceneId: string;
+    text?: string;
+    image?: string;
+  } | null>(null);
+
+  const [actionsLocked, setActionsLocked] = useState(false);
 
   const {
     availableActions,
@@ -26,16 +34,15 @@ export function StoryScene() {
   } = useGameStore();
 
   const current: SceneType | undefined = story[index];
-
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const fadeIntervalRef = useRef<number | null>(null);
 
   // -------------------------
-  // Fade helpers
+  // Audio fade helpers
   // -------------------------
   const clearFade = () => {
     if (fadeIntervalRef.current) {
-      clearInterval(fadeIntervalRef.current);
+      window.clearInterval(fadeIntervalRef.current);
       fadeIntervalRef.current = null;
     }
   };
@@ -49,9 +56,9 @@ export function StoryScene() {
     audio.volume = 0;
     const step = target / (duration / 16);
     fadeIntervalRef.current = window.setInterval(() => {
-      if (audio.volume + step < target) {
+      if (audio.volume + step < target)
         audio.volume = Math.min(audio.volume + step, target);
-      } else {
+      else {
         audio.volume = target;
         clearFade();
       }
@@ -63,9 +70,9 @@ export function StoryScene() {
     const start = audio.volume;
     const step = start / (duration / 16 || 1);
     fadeIntervalRef.current = window.setInterval(() => {
-      if (audio.volume - step > 0.01) {
+      if (audio.volume - step > 0.01)
         audio.volume = Math.max(audio.volume - step, 0);
-      } else {
+      else {
         audio.volume = 0;
         audio.pause();
         clearFade();
@@ -74,78 +81,46 @@ export function StoryScene() {
   };
 
   // -------------------------
-  // Start game — create audio here
+  // Start game
   // -------------------------
   const startGame = useCallback(() => {
     setIsStarted(true);
 
-    // Create audio strictly in user gesture
     if (!audioRef.current) {
       const a = new Audio();
       a.preload = "auto";
-      a.loop = current.notSoundLoop ? false : true;
-      a.volume = 0; // fade will set proper value
+      a.loop = true;
+      a.volume = 0;
       audioRef.current = a;
     }
 
-    // Unlock autoplay policy
+    // Unlock autoplay
     audioRef.current.src = SILENT_MP3;
     audioRef.current.currentTime = 0;
     audioRef.current.play().catch(() => {});
   }, []);
 
   // -------------------------
-  // Play scene sounds when scene changes
+  // Play scene sound
   // -------------------------
   useEffect(() => {
-    // Do not play sound until Start clicked
-    if (!isStarted) return;
-
-    if (!current?.sound) {
-      if (audioRef.current && !audioRef.current.paused) {
-        fadeOutAudio(audioRef.current, 300);
-      }
-      return;
-    }
-
-    if (!isSoundEnabled) return;
-    if (!audioRef.current) return;
+    if (!isStarted || !audioRef.current) return;
 
     const audio = audioRef.current;
 
-    audio.src = current.sound;
-    audio.loop = current.notSoundLoop ? false : true;
-    audio.currentTime = 0;
+    if (!current?.sound || !isSoundEnabled) {
+      fadeOutAudio(audio, 300);
+      return;
+    }
 
+    audio.src = current.sound;
+    audio.loop = !current.notSoundLoop;
+    audio.currentTime = 0;
     audio
       .play()
       .then(() => fadeInAudio(audio, 500, 0.4))
       .catch(() => {});
   }, [current?.sound, isSoundEnabled, isStarted]);
-
-  // -------------------------
-  // React to global Mute / Unmute
-  // -------------------------
-  useEffect(() => {
-    if (!audioRef.current) return;
-    if (!isStarted) return;
-
-    const audio = audioRef.current;
-
-    if (!isSoundEnabled) {
-      fadeOutAudio(audio, 300);
-    } else {
-      if (current?.sound) {
-        audio.src = current.sound;
-        audio.loop = current.notSoundLoop ? false : true;
-        audio.currentTime = 0;
-        audio
-          .play()
-          .then(() => fadeInAudio(audio, 400, 0.4))
-          .catch(() => {});
-      }
-    }
-  }, [isSoundEnabled, isStarted, current?.sound]);
 
   // -------------------------
   // Scene navigation
@@ -161,23 +136,30 @@ export function StoryScene() {
 
   const handleNext = useCallback(() => {
     if (!current) return;
-
     if (current.puzzle) {
       setIsInPuzzle(true);
       return;
     }
-
     if (current.nextSceneId) return goToSceneById(current.nextSceneId);
-
     if (index < story.length - 1) setIndex(index + 1);
     setIsTyping(true);
   }, [current, goToSceneById, index]);
 
   const handleActionClick = useCallback(
-    (actionId: string, nextSceneId?: string) => {
-      completeAction(actionId);
-      if (nextSceneId) goToSceneById(nextSceneId);
-      else handleNext();
+    (action: ActionType) => {
+      completeAction(action.id);
+
+      if (action.extraContent && action.nextSceneId) {
+        setExtraContentAction({
+          nextSceneId: action.nextSceneId,
+          text: action.extraContent.text,
+          image: action.extraContent.image,
+        });
+      } else if (action.nextSceneId) {
+        goToSceneById(action.nextSceneId);
+      } else {
+        handleNext();
+      }
     },
     [completeAction, goToSceneById, handleNext]
   );
@@ -189,17 +171,29 @@ export function StoryScene() {
   }, [current, goToSceneById, handleNext]);
 
   // -------------------------
-  // Available actions
+  // Available actions & delayed actions
   // -------------------------
   useEffect(() => {
     if (!current) return;
+
     if (current.actions && current.actions.length > 1) {
       setAvailableActions(current.actions);
+    }
+
+    if (current.duration) {
+      setActionsLocked(true);
+      const timeout = window.setTimeout(
+        () => setActionsLocked(false),
+        current.duration
+      );
+      return () => clearTimeout(timeout);
+    } else {
+      setActionsLocked(false);
     }
   }, [current, setAvailableActions]);
 
   // -------------------------
-  // START SCREEN
+  // Render
   // -------------------------
   if (!isStarted) {
     return (
@@ -209,9 +203,6 @@ export function StoryScene() {
     );
   }
 
-  // -------------------------
-  // PUZZLE MODE
-  // -------------------------
   if (isInPuzzle && current?.puzzle) {
     return (
       <GameLayout
@@ -232,12 +223,12 @@ export function StoryScene() {
   const actionsToShow = current.showAvailableActions
     ? availableActions
     : current.actions;
-
   const showContinueButton =
     !isTyping &&
     (!actionsToShow ||
       actionsToShow.length === 0 ||
-      (current.puzzle && !current.actions));
+      (current.puzzle && !current.actions)) &&
+    !actionsLocked;
 
   return (
     <GameLayout backgroundImg={current.backgroundImg} sceneKey={current.id}>
@@ -248,28 +239,36 @@ export function StoryScene() {
       />
 
       <div className="mt-6">
-        {!isTyping ? (
-          <>
-            {actionsToShow && actionsToShow.length > 0 && (
-              <div className="flex gap-3 flex-wrap">
-                {actionsToShow.map((a) => (
-                  <ActionButton
-                    key={a.id}
-                    text={a.text}
-                    onClick={() => handleActionClick(a.id, a.nextSceneId)}
-                  />
-                ))}
-              </div>
-            )}
+        {!isTyping &&
+          actionsToShow &&
+          actionsToShow.length > 0 &&
+          !actionsLocked && (
+            <div className="flex gap-3 flex-wrap">
+              {actionsToShow.map((a) => (
+                <ActionButton
+                  key={a.id}
+                  text={a.text}
+                  onClick={() => handleActionClick(a)}
+                />
+              ))}
+            </div>
+          )}
 
-            {showContinueButton && (
-              <ActionButton text="Continue" onClick={handleNext} />
-            )}
-          </>
-        ) : (
-          <div className="mt-3 text-gray-400 text-sm italic animate-pulse"></div>
+        {showContinueButton && (
+          <ActionButton text="Continue" onClick={handleNext} />
         )}
       </div>
+
+      {extraContentAction && (
+        <ExtraContentModal
+          text={extraContentAction.text}
+          image={extraContentAction.image}
+          onContinue={() => {
+            goToSceneById(extraContentAction.nextSceneId);
+            setExtraContentAction(null);
+          }}
+        />
+      )}
     </GameLayout>
   );
 }
