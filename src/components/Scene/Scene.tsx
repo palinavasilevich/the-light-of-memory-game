@@ -37,6 +37,8 @@ export function StoryScene() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const fadeIntervalRef = useRef<number | null>(null);
 
+  const isEndOfGame = current.isEndOfGame;
+
   // -------------------------
   // Audio fade helpers
   // -------------------------
@@ -240,6 +242,7 @@ export function StoryScene() {
 
       <div className="mt-6">
         {!isTyping &&
+          !isEndOfGame &&
           actionsToShow &&
           actionsToShow.length > 0 &&
           !actionsLocked && (
@@ -254,7 +257,7 @@ export function StoryScene() {
             </div>
           )}
 
-        {showContinueButton && (
+        {!isEndOfGame && showContinueButton && (
           <ActionButton text="Continue" onClick={handleNext} />
         )}
       </div>
