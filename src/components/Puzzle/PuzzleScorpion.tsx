@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import scorpionImg from "../../assets/images/productImage-21724-3d-steampunk-skorpion-bausatz_1400x1400.webp";
+import scorpionImg from "../../assets/images/scorpion.png";
 
 type Props = {
   rows?: number;
   cols?: number;
-  onSolved: (result?: any) => void;
+  onSolved: () => void;
 };
 
 export function PuzzleScorpion({ rows = 4, cols = 4, onSolved }: Props) {
@@ -73,7 +73,7 @@ export function PuzzleScorpion({ rows = 4, cols = 4, onSolved }: Props) {
       </h2>
 
       <p className="text-sm text-gray-400 italic mb-3 animate-pulse">
-        Перетаскивай детали, чтобы восстановить чертёж.
+        Перетаскивай детали, чтобы восстановить устройство.
       </p>
 
       {/* {!isSolved && moves === 0 && (
@@ -85,7 +85,7 @@ export function PuzzleScorpion({ rows = 4, cols = 4, onSolved }: Props) {
       <div className="mt-12 flex gap-8">
         {/* Референс (чертёж) */}
         <div className="relative flex flex-col items-center">
-          <p className="text-sm text-gray-400 mb-1 italic">Чертёж:</p>
+          {/* <p className="text-sm text-gray-400 mb-1 italic">Чертёж:</p> */}
           <div className="relative border border-yellow-800 p-1 rounded-md shadow-inner shadow-yellow-900">
             <img
               src={scorpionImg}

@@ -7,7 +7,7 @@ export function SoundToggleButton() {
   return (
     <button
       onClick={toggleSound}
-      className="p-3 rounded-full bg-black/50 hover:bg-black/70 border border-white/20 transition"
+      className="p-3 rounded-full bg-black/50 hover:bg-black/70 border border-white/20 transition cursor-pointer"
       title={isSoundEnabled ? "Mute" : "Unmute"}
     >
       {isSoundEnabled ? <Volume2 size={22} /> : <VolumeX size={22} />}

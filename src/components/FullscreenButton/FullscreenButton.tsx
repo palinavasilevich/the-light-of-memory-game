@@ -18,7 +18,7 @@ export const FullscreenButton = () => {
   return (
     <button
       onClick={toggleFullscreen}
-      className="p-2 bg-black/50 hover:bg-black/70 rounded-full border border-white/20 text-white transition"
+      className="p-3 rounded-full bg-black/50 hover:bg-black/70 border border-white/20 transition cursor-pointer"
       title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
     >
       {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}

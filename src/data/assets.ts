@@ -1,7 +1,10 @@
 export const images = {
-  startScreen: "/src/assets/images/startScreen.jpg",
+  startScreen: "/src/assets/images/startScreen.png",
+  pizzle: {
+    scorpion: "/src/assets/images/scorpion.png",
+  },
   firstChapter: {
-    castle: "/src/assets/images/first-chapter/background/estate3.jpg", // --- ??? EDIT
+    estate: "/src/assets/images/first-chapter/​estate.png",
     corridor: "/src/assets/images/first-chapter/corridor.png",
     doorAndMirror: "/src/assets/images/first-chapter/doorAndMirror.png",
     door: "/src/assets/images/first-chapter/door.png",
@@ -13,7 +16,7 @@ export const images = {
     library: "/src/assets/images/second-chapter/library.png",
     bookShelves: "/src/assets/images/second-chapter/bookShelves.png", // --- ??? EDIT
     shelfClose: "/src/assets/images/second-chapter/shelfClose.jpg",
-    shelfRows: "/src/assets/images/second-chapter/shelfRows.png",
+    shelfRows: "/src/assets/images/second-chapter/shelfRows_2.jpg",
     scorpion: "/src/assets/images/second-chapter/scorpion.jpg",
     topShelf: "/src/assets/images/second-chapter/topShelf.jpg",
     mouse: "/src/assets/images/second-chapter/mouse.png",
@@ -61,7 +64,7 @@ export const images = {
   },
 
   epilogue: {
-    library: "/src/assets/images/epilogue/library_2.png",
+    library: "/src/assets/images/epilogue/library.png",
     ghost: "/src/assets/images/epilogue/ghost.png",
     book: "/src/assets/images/epilogue/book.png",
     ghostBook: "/src/assets/images/epilogue/ghostBook.png",
@@ -72,10 +75,9 @@ export const images = {
 
 export const sounds = {
   firstChapter: {
-    wind: "/src/assets/sounds/rainstorm-with-wind.mp3",
-    memory: "/src/assets/sounds/memory.mp3",
-    paperFlutter: "/src/assets/sounds/paper_flutter.mp3",
-    mirrorBreaking: "/src/assets/sounds/mirror_breaking.mp3",
+    thunder: "/src/assets/sounds/first-chapter/thunder.mp3",
+    memory: "/src/assets/sounds/first-chapter/memory.mp3",
+    paperFlutter: "/src/assets/sounds/first-chapter/paper_flutter.mp3",
   },
   secondChapter: {
     library:
