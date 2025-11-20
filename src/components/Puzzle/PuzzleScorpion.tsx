@@ -68,38 +68,29 @@ export function PuzzleScorpion({ rows = 4, cols = 4, onSolved }: Props) {
 
   return (
     <div className="flex flex-col items-center text-center mt-4 relative">
-      <h2 className="text-lg font-semibold text-yellow-300 mb-2">
-        ⚙️ Собери механического скорпиона 🦂
+      <h2 className="text-3xl font-semibold text-yellow-500 mb-2">
+        ⚙️ Assemble mechanical scorpion
       </h2>
 
-      <p className="text-sm text-gray-400 italic mb-3 animate-pulse">
-        Перетаскивай детали, чтобы восстановить устройство.
+      <p className="text-xl text-gray-400 italic animate-pulse">
+        Drag and drop parts to restore the device
       </p>
 
-      {/* {!isSolved && moves === 0 && (
-        <p className="text-sm text-gray-400 italic mb-3 animate-pulse ">
-          Перетаскивай детали, чтобы восстановить чертёж.
-        </p>
-      )} */}
-
-      <div className="mt-12 flex gap-8">
-        {/* Референс (чертёж) */}
+      <div className="mt-8 flex gap-8">
         <div className="relative flex flex-col items-center">
-          {/* <p className="text-sm text-gray-400 mb-1 italic">Чертёж:</p> */}
           <div className="relative border border-yellow-800 p-1 rounded-md shadow-inner shadow-yellow-900">
             <img
               src={scorpionImg}
               alt="Reference"
-              width={pieceSize * 2.5}
-              height={pieceSize * 2.5}
+              width={pieceSize * 2}
+              height={pieceSize * 2}
               className="object-cover opacity-70 sepia-[0.5] contrast-[0.9]"
             />
-            {/* эффект обгоревшего края */}
+
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,0,0,0.3)_0%,rgba(0,0,0,0)_60%)] pointer-events-none rounded-md" />
           </div>
         </div>
 
-        {/* Сам пазл */}
         <div
           className="relative grid border-2 border-amber-700 shadow-md"
           style={{
@@ -155,115 +146,48 @@ export function PuzzleScorpion({ rows = 4, cols = 4, onSolved }: Props) {
         </div>
       </div>
 
-      {/* Панель информации */}
-      <div className="mt-4 text-sm text-gray-300">
-        <p>
-          Ходов: {moves} | Время: {time} сек
-        </p>
-      </div>
-
-      {/* Сообщение при завершении */}
-      {isSolved && (
+      {/* {isSolved && (
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: [1.2, 1], opacity: [0, 1] }}
           transition={{ duration: 0.8 }}
           className="mt-4 text-lg font-bold text-yellow-400 drop-shadow-[0_0_6px_rgba(255,200,0,0.8)]"
         >
-          ⚙️ Механизм активирован!
+          ⚙️ The mechanism is activated!
         </motion.div>
-      )}
+      )} */}
+
+      <AnimatePresence>
+        {isSolved && (
+          <>
+            <motion.div
+              key="flash"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 1, 0] }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.2 }}
+              className="absolute inset-0 bg-yellow-300/60 rounded-md pointer-events-none"
+            />
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-3xl font-bold text-amber-400 text-center  drop-shadow-[0_0_6px_rgba(255,200,0,0.8)]"
+            >
+              THE MECHANISM IS ACTIVATED!
+              {/* <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] }}
+                transition={{ repeat: 2, duration: 1.5 }}
+                className="text-6xl mt-4"
+              >
+                🦂
+              </motion.div> */}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
-
-    // <div className="flex flex-col items-center gap-4">
-    //   {/* <h2 className="text-lg font-semibold text-amber-400 tracking-wider">
-    //     🦂 Собери механического скорпиона
-    //   </h2> */}
-    //   //
-    //   <div className="mb-4 flex gap-6 text-lg">
-    //     <span>⏱ Время: {time}s</span>
-    //     <span>🔁 Ходы: {moves}</span>
-    //   </div>
-    //   <div className="flex gap-8 items-start justify-center">
-    //     <div className="reference flex flex-col items-center">
-    //       <p className="text-sm text-amber-300 italic mb-2">Чертёж</p>
-    //       <div className="border-2 border-amber-600 bg-stone-900/60 p-1 shadow-inner">
-    //         <img
-    //           src={imgUrl}
-    //           alt="Reference"
-    //           width={pieceSize * 1.5}
-    //           height={pieceSize * 1.5}
-    //           className="opacity-80 sepia-[60%] brightness-90 contrast-120"
-    //         />
-    //       </div>
-    //     </div>
-    //     <div
-    //       className="relative grid border-2 border-amber-700 shadow-md"
-    //       style={{
-    //         gridTemplateColumns: `repeat(${cols}, ${pieceSize}px)`,
-    //         gridTemplateRows: `repeat(${rows}, ${pieceSize}px)`,
-    //       }}
-    //     >
-    //       {positions.map((pos, index) => {
-    //         const x = (pos % cols) * pieceSize;
-    //         const y = Math.floor(pos / cols) * pieceSize;
-    //         return (
-    //           <motion.div
-    //             key={index}
-    //             className="puzzle-piece border border-amber-800 cursor-grab active:cursor-grabbing"
-    //             draggable={!isSolved}
-    //             onDragStart={(e) => handleDragStart(e, index)}
-    //             onDrop={(e) => handleDrop(e, index)}
-    //             onDragOver={handleDragOver}
-    //             whileHover={
-    //               !isSolved ? { scale: 1.05, boxShadow: "0 0 10px gold" } : {}
-    //             }
-    //             style={{
-    //               width: pieceSize,
-    //               height: pieceSize,
-    //               backgroundImage: `url(${imgUrl})`,
-    //               backgroundSize: `${cols * pieceSize}px ${rows * pieceSize}px`,
-    //               backgroundPosition: `-${x}px -${y}px`,
-    //               transition: "transform 0.2s ease",
-    //             }}
-    //           />
-    //         );
-    //       })}
-
-    //       {/* Анимация вспышки при сборке */}
-    //       <AnimatePresence>
-    //         {isSolved && (
-    //           <>
-    //             <motion.div
-    //               key="flash"
-    //               initial={{ opacity: 0 }}
-    //               animate={{ opacity: [0, 1, 0] }}
-    //               exit={{ opacity: 0 }}
-    //               transition={{ duration: 1.2 }}
-    //               className="absolute inset-0 bg-yellow-300/60 rounded-md pointer-events-none"
-    //             />
-
-    //             <motion.div
-    //               initial={{ opacity: 0, scale: 0.8 }}
-    //               animate={{ opacity: 1, scale: 1 }}
-    //               exit={{ opacity: 0 }}
-    //               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl font-bold text-amber-400 text-center drop-shadow-lg"
-    //             >
-    //               ⚙️ Скорпион оживает...
-    //               <motion.div
-    //                 initial={{ scale: 0 }}
-    //                 animate={{ scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] }}
-    //                 transition={{ repeat: 2, duration: 1.5 }}
-    //                 className="text-6xl mt-4"
-    //               >
-    //                 🦂
-    //               </motion.div>
-    //             </motion.div>
-    //           </>
-    //         )}
-    //       </AnimatePresence>
-    //     </div>
-    //   </div>
-    // </div>
   );
 }

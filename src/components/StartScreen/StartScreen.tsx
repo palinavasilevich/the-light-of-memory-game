@@ -20,29 +20,14 @@ export function StartScreen({ onStart }: StartScreenProps) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, ease: "easeOut" }}
       >
-        {/* <motion.h1
-          className="text-6xl font-bold text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]"
+        <motion.h1
+          className="text-4xl font-bold text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] mb-12 tracking-wide max-w-md"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.8 }}
         >
-          Moonlight Quest
-        </motion.h1> */}
-
-        <motion.h2
-          // className="text-gray-300 mt-4 mb-12 text-lg tracking-wide max-w-md"
-          className="text-3xl font-bold text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] mb-12 tracking-wide max-w-md"
-          // initial={{ opacity: 0 }}
-          // animate={{ opacity: 1 }}
-          // transition={{ delay: 1.2, duration: 1.6 }}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.8 }}
-        >
-          A journey through shadows, secrets
-          <br />
-          and forgotten dreams.
-        </motion.h2>
+          A journey through shadows, secrets and forgotten dreams.
+        </motion.h1>
 
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}

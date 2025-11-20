@@ -9,6 +9,7 @@ type Props = {
   children: React.ReactNode;
   sceneKey?: string;
   isPuzzle?: boolean;
+  classNameContentBlock?: string;
 };
 
 export const GameLayout: React.FC<Props> = ({
@@ -16,6 +17,7 @@ export const GameLayout: React.FC<Props> = ({
   children,
   sceneKey,
   isPuzzle,
+  classNameContentBlock,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -24,8 +26,6 @@ export const GameLayout: React.FC<Props> = ({
       ref.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [sceneKey]);
-
-  const contentBlockWidthClasses = !isPuzzle ? "max-w-2xl" : "max-w-3xl";
 
   return (
     <div className="relative w-full h-screen flex items-center justify-center bg-black text-gray-100 overflow-hidden">
@@ -48,7 +48,7 @@ export const GameLayout: React.FC<Props> = ({
       {/* <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/20 to-black/60" /> */}
 
       <div
-        className={`z-10 w-full px-6 py-8 text-shadow-lg ${contentBlockWidthClasses}`}
+        className={`z-10 w-full px-6 py-8 text-shadow-lg max-w-2xl ${classNameContentBlock}`}
       >
         <AnimatePresence mode="wait">
           <motion.div

@@ -1,12 +1,12 @@
 export const images = {
-  startScreen: "/src/assets/images/startScreen.png",
+  startScreen: "/src/assets/images/startScreen_5.png",
   pizzle: {
     scorpion: "/src/assets/images/scorpion.png",
   },
   firstChapter: {
     estate: "/src/assets/images/first-chapter/​estate.png",
     corridor: "/src/assets/images/first-chapter/corridor.png",
-    doorAndMirror: "/src/assets/images/first-chapter/doorAndMirror.png",
+    doorAndMirror: "/src/assets/images/first-chapter/doorAndMirror_2.png",
     door: "/src/assets/images/first-chapter/door.png",
     vision: "/src/assets/images/first-chapter/vision_5.png",
     gloves: "/src/assets/images/first-chapter/gloves.png", // --- ??? EDIT
@@ -17,7 +17,7 @@ export const images = {
     bookShelves: "/src/assets/images/second-chapter/bookShelves.png", // --- ??? EDIT
     shelfClose: "/src/assets/images/second-chapter/shelfClose.jpg",
     shelfRows: "/src/assets/images/second-chapter/shelfRows_2.jpg",
-    scorpion: "/src/assets/images/second-chapter/scorpion.jpg",
+    scorpion: "/src/assets/images/second-chapter/scorpion.png",
     topShelf: "/src/assets/images/second-chapter/topShelf.jpg",
     mouse: "/src/assets/images/second-chapter/mouse.png",
     table: "/src/assets/images/second-chapter/table.png",
@@ -45,7 +45,7 @@ export const images = {
     scorpionMessage: "/src/assets/images/third-chapter/scorpionMessage.png",
     scorpionActivated: "/src/assets/images/third-chapter/scorpionActivated.png",
     scorpionButton: "/src/assets/images/third-chapter/scorpionButton.png",
-    darkness: "/src/assets/images/third-chapter/darkness_4.jpg",
+    darkness: "/src/assets/images/third-chapter/darkness_5.jpg",
     flash: "/src/assets/images/third-chapter/flash.png",
   },
 
@@ -77,19 +77,19 @@ export const sounds = {
   firstChapter: {
     thunder: "/src/assets/sounds/first-chapter/thunder.mp3",
     memory: "/src/assets/sounds/first-chapter/memory.mp3",
-    paperFlutter: "/src/assets/sounds/first-chapter/paper_flutter.mp3",
+    paperFlutter: "/src/assets/sounds/first-chapter/paper-book-flutter.mp3",
   },
   secondChapter: {
     library:
       "/src/assets/sounds/second-chapter/crystal-ambient-piano-252638.mp3",
 
-    book: "/src/assets/sounds/second-chapter/book.mp3",
+    book: "/src/assets/sounds/second-chapter/book_3.mp3",
     openBook:
       "/src/assets/sounds/second-chapter/mystery-magic-harry-potter-music-277018.mp3",
   },
   thirdChapter: {
     water: "/src/assets/sounds/third-chapter/dripping-water-stereo-sound.mp3",
-    echo: "/src/assets/sounds/third-chapter/walking-in-tunnel.mp3",
+    echo: "/src/assets/sounds/third-chapter/walk-to-dungeon.mp3",
     // roomAmbience:
     //   "/src/assets/sounds/third-chapter/atmosphere-dark-fantasy-dungeon-synthpiano-verse.mp3",
     roomAmbience: "/src/assets/sounds/third-chapter/crawling-danger-303228.mp3",

@@ -4,16 +4,15 @@ export type SentenceType = {
 };
 
 export const SENTENCES: Array<SentenceType> = [
-  // {
-  //   german: "Ich ging an der Tür vorbei und provozierte einen Gelegenheitsangriff",
-  //   translation: "Шла мимо двери и спровоцировала атаку по возможности",
-  // },
-  // {
-  //   german:
-  //     "Welche Farbe hatte die Katze? Die Farbe eines Spatzen",
-  //   translation:
-  //     "Какого цвета был кот? Цвета воробья",
-  // },
+  {
+    german:
+      "Ich ging an der Tür vorbei und provozierte einen Gelegenheitsangriff",
+    translation: "Шла мимо двери и спровоцировала атаку по возможности",
+  },
+  {
+    german: "Welche Farbe hatte die Katze? Die Farbe eines Spatzen",
+    translation: "Какого цвета был кот? Цвета воробья",
+  },
 
   // {
   //   german:

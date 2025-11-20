@@ -3,32 +3,6 @@ import type { SceneType } from "../types/game";
 import { images, sounds } from "./assets";
 
 export const story: SceneType[] = [
-  // {
-  //   groupId: "prologue",
-  //   id: "prologue_1",
-  //   backgroundImg: images.room,
-  //   text: "Серое утреннее свечение проникает внутрь разбитого окна...",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  //   specialEffects: ["fade"],
-  // },
-  // {
-  //   groupId: "prologue",
-  //   id: "prologue_2",
-  //   backgroundImg: images.room,
-  //   text: "Пыль кружится в воздухе, время здесь будто застыло.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  // },
-  // {
-  //   groupId: "prologue",
-  //   id: "prologue_3",
-  //   backgroundImg: images.room,
-  //   text: "На мгновение в отражении осколков стекла мерцает силуэт — и исчезает.",
-  //   sound: sounds.wake,
-  //   storyteller: { name: "Storyteller" },
-  // },
-
   // ===== CHAPTER 1 =====
   // {
   //   groupId: "chapter1",
@@ -180,7 +154,7 @@ export const story: SceneType[] = [
   //   groupId: "chapter1",
   //   id: "chapter1_15",
   //   backgroundImg: images.firstChapter.gloves,
-  //   text: `Приглядевшись внимательнее, ты замечаешь на перчатке выгравированную надпись: <br/><i>"ZUM SPEICHER"</i>.`,
+  //   text: `Приглядевшись внимательнее, ты замечаешь на перчатке выгравированную надпись: <i>"ZUM SPEICHER"</i>.`,
   //   sound: sounds.firstChapter.memory,
   //   storyteller: { name: "Storyteller" },
   // },
@@ -595,14 +569,7 @@ export const story: SceneType[] = [
   //   text: "Наконец, ты оказываешься в просторном помещении. Высокие арки теряются во мраке, воздух пропитан гарью.",
   //   storyteller: { name: "Storyteller" },
   // },
-  // // {
-  // //   groupId: "chapter_3",
-  // //   id: "chapter3_5",
-  // //   backgroundImg: images.thirdChapter.room,
-  // //   sound: sounds.roomAmbience,
-  // //   text: "Высокие арки теряются во мраке, воздух пропитан гарью.",
-  // //   storyteller: { name: "Storyteller" },
-  // // },
+
   // {
   //   groupId: "chapter_3",
   //   id: "chapter3_6",
@@ -722,76 +689,76 @@ export const story: SceneType[] = [
   //   text: "Наполовину собранный механизм напоминает тебе устройство, чертёж которого ты нашёл в библиотеке.",
   //   storyteller: { name: "Storyteller" },
   // },
-  {
-    groupId: "chapter_3",
-    id: "chapter3_18",
-    backgroundImg: images.thirdChapter.scorpion,
-    sound: sounds.thirdChapter.roomAmbience,
-    text: "Корпус треснул, но шестерёнки внутри целы. Кажется, если всё установить правильно, механизм можно оживить.",
-    storyteller: { name: "Storyteller" },
-    actions: [
-      {
-        id: "chapter3_act_3",
-        text: "Попробовать собрать механизм",
-      },
-    ],
-    puzzle: {
-      id: "chapter3_puzzle_0",
-      type: "scorpion",
-      nextSceneId: "chapter3_19",
-    },
-  },
-  // --- активация ---
-  {
-    groupId: "chapter_3",
-    id: "chapter3_19",
-    backgroundImg: images.thirdChapter.scorpionActivated,
-    sound: sounds.thirdChapter.memory,
-    text: "Когда последний сегмент встаёт на место, скорпион оживает.",
-    storyteller: { name: "Storyteller" },
-  },
-  {
-    groupId: "chapter_3",
-    id: "chapter3_20",
-    backgroundImg: images.thirdChapter.scorpionActivated,
-    sound: sounds.thirdChapter.memory,
-    text: "Его глаза вспыхивают янтарным светом, а из его хвоста вырывается тонкий зелёный луч, направленный в стену.",
-    storyteller: { name: "Storyteller" },
-  },
-  {
-    groupId: "chapter_3",
-    id: "chapter3_21",
-    backgroundImg: images.thirdChapter.scorpionMessage,
-    sound: sounds.thirdChapter.memory,
-    text: 'На стене проступают слова: <br/> <i>"SIEH DAS LICHT IM SPIEGEL..."</i>',
-    storyteller: { name: "Storyteller" },
-  },
+  // {
+  //   groupId: "chapter_3",
+  //   id: "chapter3_18",
+  //   backgroundImg: images.thirdChapter.scorpion,
+  //   sound: sounds.thirdChapter.roomAmbience,
+  //   text: "Корпус треснул, но шестерёнки внутри целы. Кажется, если всё установить правильно, механизм можно оживить.",
+  //   storyteller: { name: "Storyteller" },
+  //   actions: [
+  //     {
+  //       id: "chapter3_act_3",
+  //       text: "Попробовать собрать механизм",
+  //     },
+  //   ],
+  //   puzzle: {
+  //     id: "chapter3_puzzle_0",
+  //     type: "scorpion",
+  //     nextSceneId: "chapter3_19",
+  //   },
+  // },
+  // // --- активация ---
+  // {
+  //   groupId: "chapter_3",
+  //   id: "chapter3_19",
+  //   backgroundImg: images.thirdChapter.scorpionActivated,
+  //   sound: sounds.thirdChapter.memory,
+  //   text: "Когда последний сегмент встаёт на место, скорпион оживает.",
+  //   storyteller: { name: "Storyteller" },
+  // },
+  // {
+  //   groupId: "chapter_3",
+  //   id: "chapter3_20",
+  //   backgroundImg: images.thirdChapter.scorpionActivated,
+  //   sound: sounds.thirdChapter.memory,
+  //   text: "Его глаза вспыхивают янтарным светом, а из его хвоста вырывается тонкий зелёный луч, направленный в стену.",
+  //   storyteller: { name: "Storyteller" },
+  // },
+  // {
+  //   groupId: "chapter_3",
+  //   id: "chapter3_21",
+  //   backgroundImg: images.thirdChapter.scorpionMessage,
+  //   sound: sounds.thirdChapter.memory,
+  //   text: 'На стене проступают слова: <i>"SIEH DAS LICHT IM SPIEGEL..."</i>',
+  //   storyteller: { name: "Storyteller" },
+  // },
 
-  {
-    groupId: "chapter_3",
-    id: "chapter3_21",
-    backgroundImg: images.thirdChapter.scorpionMessage,
-    sound: sounds.thirdChapter.memory,
-    text: '"Снова древний земнийский?.."',
-    storyteller: { name: "Storyteller" },
-  },
+  // {
+  //   groupId: "chapter_3",
+  //   id: "chapter3_21",
+  //   backgroundImg: images.thirdChapter.scorpionMessage,
+  //   sound: sounds.thirdChapter.memory,
+  //   text: '"Снова древний земнийский?.."',
+  //   storyteller: { name: "Storyteller" },
+  // },
 
-  {
-    groupId: "chapter_3",
-    id: "chapter3_22",
-    backgroundImg: images.thirdChapter.scorpionMessage,
-    sound: sounds.thirdChapter.memory,
-    text: "Ты видишь своё отражение в блеске металла — и вдруг понимаешь, что кто-то оставил это устройство именно для тебя.",
-    storyteller: { name: "Storyteller" },
-  },
-  {
-    groupId: "chapter_3",
-    id: "chapter3_23",
-    backgroundImg: images.thirdChapter.scorpionButton,
-    sound: sounds.thirdChapter.memory,
-    text: "Свет меркнет. Скорпион замирает... но под панцирем начинает мерцать тусклый огонёк.",
-    storyteller: { name: "Storyteller" },
-  },
+  // {
+  //   groupId: "chapter_3",
+  //   id: "chapter3_22",
+  //   backgroundImg: images.thirdChapter.scorpionMessage,
+  //   sound: sounds.thirdChapter.memory,
+  //   text: "Ты видишь своё отражение в блеске металла — и вдруг понимаешь, что кто-то оставил это устройство именно для тебя.",
+  //   storyteller: { name: "Storyteller" },
+  // },
+  // {
+  //   groupId: "chapter_3",
+  //   id: "chapter3_23",
+  //   backgroundImg: images.thirdChapter.scorpionButton,
+  //   sound: sounds.thirdChapter.memory,
+  //   text: "Свет меркнет. Скорпион замирает... но под панцирем начинает мерцать тусклый огонёк.",
+  //   storyteller: { name: "Storyteller" },
+  // },
   // --- кнопка ---
   {
     groupId: "chapter_3",
@@ -881,7 +848,7 @@ export const story: SceneType[] = [
   {
     groupId: "chapter_4",
     id: "chapter_4_4",
-    backgroundImg: images.fourthChapter.altar,
+    backgroundImg: images.fourthChapter.observatory,
     sound: sounds.fourthChapter.observatory,
     text: "Холодный лунный свет пробивается сквозь трещины в куполе, выхватывая из темноты массивный каменный алтарь в центре зала.",
     storyteller: { name: "Storyteller" },
@@ -959,6 +926,13 @@ export const story: SceneType[] = [
       nextSceneId: "chapter_4_11",
     },
     storyteller: { name: "Storyteller" },
+
+    actions: [
+      {
+        id: "chapter4_act_2",
+        text: "Попытаться активировать механизм",
+      },
+    ],
   },
 
   {
@@ -966,7 +940,7 @@ export const story: SceneType[] = [
     id: "chapter_4_11",
     backgroundImg: images.fourthChapter.lantern,
     sound: sounds.fourthChapter.memory,
-    text: `Когда последний луч достигает центра, кристалл поднимается в воздух.<br/> Он вспыхивает мягким золотым светом и превращается в Волшебный фонарь.`,
+    text: `Когда последний луч достигает центра, кристалл поднимается в воздух. Он вспыхивает мягким золотым светом и превращается в Волшебный фонарь.`,
     storyteller: { name: "Storyteller" },
   },
 
@@ -1032,7 +1006,8 @@ export const story: SceneType[] = [
     sound: sounds.fourthChapter.memory,
     text: "Свет фонаря меркнет... и всё вокруг погружается в тихую, холодную тьму.",
     storyteller: { name: "Storyteller" },
-    duration: 4000,
+    duration: 5000,
+    nextSceneId: "epilogue_1",
   },
 
   // ===== Epilogue =====

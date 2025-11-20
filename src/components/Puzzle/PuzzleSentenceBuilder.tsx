@@ -53,6 +53,10 @@ export const PuzzleSentenceBuilder: React.FC<PuzzleSentenceBuilderProps> = ({
     }
   };
 
+  const handleReset = () => {
+    setSelected([]);
+  };
+
   return (
     <div className="relative h-full w-full">
       {/* Вспышка при успехе */}
@@ -116,6 +120,14 @@ export const PuzzleSentenceBuilder: React.FC<PuzzleSentenceBuilderProps> = ({
 
       {/* Кнопки */}
       <div className="flex justify-center gap-3">
+        <motion.button
+          onClick={handleReset}
+          disabled={selected.length === 0}
+          whileTap={{ scale: 0.95 }}
+          className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 cursor-pointer"
+        >
+          Zurücksetzen
+        </motion.button>
         <motion.button
           onClick={handleCheck}
           disabled={selected.length === 0}

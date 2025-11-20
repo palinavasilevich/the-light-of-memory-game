@@ -182,17 +182,36 @@ export function StoryScene() {
       setAvailableActions(current.actions);
     }
 
-    if (current.duration) {
-      setActionsLocked(true);
-      const timeout = window.setTimeout(
-        () => setActionsLocked(false),
-        current.duration
-      );
-      return () => clearTimeout(timeout);
-    } else {
-      setActionsLocked(false);
-    }
+    // if (current.duration) {
+    //   setActionsLocked(true);
+    //   const timeout = window.setTimeout(() => {
+    //     setActionsLocked(false);
+    //   }, current.duration);
+    //   return () => clearTimeout(timeout);
+    // } else {
+    //   setActionsLocked(false);
+    // }
   }, [current, setAvailableActions]);
+
+  useEffect(() => {
+    if (!current) return;
+
+    if (isTyping) return;
+
+    if (current.puzzle) return;
+
+    if (!current.duration) return;
+
+    const timeout = window.setTimeout(() => {
+      if (current.nextSceneId) {
+        goToSceneById(current.nextSceneId);
+      } else {
+        handleNext();
+      }
+    }, current.duration);
+
+    return () => clearTimeout(timeout);
+  }, [current, isTyping, availableActions, goToSceneById, handleNext]);
 
   // -------------------------
   // Render
@@ -211,6 +230,9 @@ export function StoryScene() {
         backgroundImg={current.backgroundImg}
         sceneKey={current.id}
         isPuzzle
+        classNameContentBlock={
+          current.puzzle.type === "lantern" ? "max-w-4xl" : "max-w-3xl"
+        }
       >
         <Puzzle
           puzzleType={current.puzzle.type}
@@ -225,12 +247,13 @@ export function StoryScene() {
   const actionsToShow = current.showAvailableActions
     ? availableActions
     : current.actions;
+
   const showContinueButton =
     !isTyping &&
     (!actionsToShow ||
       actionsToShow.length === 0 ||
       (current.puzzle && !current.actions)) &&
-    !actionsLocked;
+    !current.duration;
 
   return (
     <GameLayout backgroundImg={current.backgroundImg} sceneKey={current.id}>
@@ -245,7 +268,7 @@ export function StoryScene() {
           !isEndOfGame &&
           actionsToShow &&
           actionsToShow.length > 0 &&
-          !actionsLocked && (
+          !current.duration && (
             <div className="flex gap-3 flex-wrap">
               {actionsToShow.map((a) => (
                 <ActionButton
