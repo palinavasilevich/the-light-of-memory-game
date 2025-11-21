@@ -8,8 +8,8 @@ interface TextTyperProps {
 
 export function TextTyper({ text, speed = 35, onComplete }: TextTyperProps) {
   const [displayed, setDisplayed] = useState("");
+  const onCompleteRef = useRef(onComplete);
   const intervalRef = useRef<number | null>(null);
-  const onCompleteRef = useRef<(() => void) | undefined>(onComplete);
 
   useEffect(() => {
     onCompleteRef.current = onComplete;
@@ -18,44 +18,39 @@ export function TextTyper({ text, speed = 35, onComplete }: TextTyperProps) {
   useEffect(() => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
-      intervalRef.current = null;
     }
 
-    const src = String(text ?? "");
-    if (!src) {
-      setDisplayed("");
-      return;
-    }
+    const src = text || "";
+    let i = 0;
+    let output = "";
 
-    setDisplayed("");
-    let idx = 0;
-
-    intervalRef.current = window.setInterval(() => {
-      idx += 1;
-
-      if (idx <= src.length) {
-        setDisplayed(src.slice(0, idx));
-      }
-
-      if (idx >= src.length) {
-        if (intervalRef.current) {
-          clearInterval(intervalRef.current);
-          intervalRef.current = null;
-        }
-
-        const cb = onCompleteRef.current;
-        if (cb) {
-          setTimeout(() => cb(), 0);
-        }
-      }
-    }, Math.max(1, speed));
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+    function step() {
+      if (i >= src.length) {
+        clearInterval(intervalRef.current!);
         intervalRef.current = null;
+        onCompleteRef.current?.();
+        return;
       }
-    };
+
+      // Если встречаем открывающий тег — добавляем весь HTML как единое целое
+      if (src[i] === "<") {
+        const closeIndex = src.indexOf(">", i);
+        if (closeIndex !== -1) {
+          output += src.slice(i, closeIndex + 1);
+          i = closeIndex + 1;
+        }
+      } else {
+        // Обычный символ
+        output += src[i];
+        i += 1;
+      }
+
+      setDisplayed(output);
+    }
+
+    intervalRef.current = window.setInterval(step, speed);
+
+    return () => clearInterval(intervalRef.current!);
   }, [text, speed]);
 
   return (

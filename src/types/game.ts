@@ -45,9 +45,9 @@ export type SceneType = {
   actions?: ActionType[];
   puzzle?: Puzzle;
   duration?: number; // автоматический переход через время
-  backgroundMusicLoop?: boolean;
-  specialEffects?: ("fade" | "shake" | "flash")[];
-  conditions?: Condition[]; // условия для перехода
+  // backgroundMusicLoop?: boolean;
+  // specialEffects?: ("fade" | "shake" | "flash")[];
+  // conditions?: Condition[]; // условия для перехода
   showAvailableActions?: boolean;
   nextSceneId?: string;
 

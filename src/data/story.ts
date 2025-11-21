@@ -465,7 +465,8 @@ export const story: SceneType[] = [
   //   groupId: "chapter2",
   //   id: "chapter2_23",
   //   backgroundImg: images.secondChapter.bookOpen,
-  //   text: `Голос из темноты прерывает твои мысли: <br/> <i>"BEOBACHTEN... LERNEN... WACHSEN..."</i>`,
+  //   text: `Голос из темноты прерывает твои мысли: <br/>
+  //           <i class="text-2xl">"BEOBACHTEN... LERNEN... WACHSEN..."</i>`,
   //   puzzle: {
   //     id: "chapter2_puzzle_0",
   //     type: "sentence",
@@ -730,7 +731,7 @@ export const story: SceneType[] = [
   //   id: "chapter3_21",
   //   backgroundImg: images.thirdChapter.scorpionMessage,
   //   sound: sounds.thirdChapter.memory,
-  //   text: 'На стене проступают слова: <i>"SIEH DAS LICHT IM SPIEGEL..."</i>',
+  //   text: 'На стене проступают слова: <i class="text-2xl">"SIEH DAS LICHT IM SPIEGEL..."</i>',
   //   storyteller: { name: "Storyteller" },
   // },
 
@@ -759,27 +760,27 @@ export const story: SceneType[] = [
   //   text: "Свет меркнет. Скорпион замирает... но под панцирем начинает мерцать тусклый огонёк.",
   //   storyteller: { name: "Storyteller" },
   // },
-  // --- кнопка ---
-  {
-    groupId: "chapter_3",
-    id: "chapter3_24",
-    backgroundImg: images.thirdChapter.scorpionButton,
-    sound: sounds.thirdChapter.memory,
-    text: "Под панцирем ты замечаешь крошечную рубиновую кнопку. Она будто зовёт — нажми меня.",
-    storyteller: { name: "Storyteller" },
-    actions: [
-      {
-        id: "chapter3_act_4",
-        text: "Нажать кнопку",
-      },
-    ],
-  },
+  // // --- кнопка ---
+  // {
+  //   groupId: "chapter_3",
+  //   id: "chapter3_24",
+  //   backgroundImg: images.thirdChapter.scorpionButton,
+  //   sound: sounds.thirdChapter.memory,
+  //   text: "Под панцирем ты замечаешь крошечную рубиновую кнопку. Она будто зовёт — нажми меня.",
+  //   storyteller: { name: "Storyteller" },
+  //   actions: [
+  //     {
+  //       id: "chapter3_act_4",
+  //       text: "Нажать кнопку",
+  //     },
+  //   ],
+  // },
   {
     groupId: "chapter_3",
     id: "chapter3_25",
     backgroundImg: images.thirdChapter.darkness,
     sound: sounds.thirdChapter.darkness,
-    text: "Щелчок...",
+    text: `<span class="text-3xl">Щелчок...</span>`,
     storyteller: { name: "Storyteller" },
   },
   {
@@ -787,7 +788,7 @@ export const story: SceneType[] = [
     id: "chapter3_26",
     backgroundImg: images.thirdChapter.darkness,
     sound: sounds.thirdChapter.darkness,
-    text: "Тьма...",
+    text: `<span class="text-3xl">Тьма...</span>`,
     storyteller: { name: "Storyteller" },
   },
   {
@@ -795,7 +796,7 @@ export const story: SceneType[] = [
     id: "chapter3_27",
     backgroundImg: images.thirdChapter.darkness,
     sound: sounds.thirdChapter.darkness,
-    text: "WASTED...",
+    text: `<span class="text-3xl">WASTED...</span>`,
     storyteller: { name: "Storyteller" },
     duration: 9000,
   },
@@ -875,7 +876,7 @@ export const story: SceneType[] = [
     id: "chapter_4_6",
     backgroundImg: images.fourthChapter.altar,
     sound: sounds.fourthChapter.observatory,
-    text: 'Одна из рун кажется тебе знакомой: <i>"ERINNERUNG"</i>.',
+    text: 'Одна из рун кажется тебе знакомой: <i class="text-2xl">"ERINNERUNG"</i>.',
     storyteller: { name: "Storyteller" },
   },
 
@@ -1106,7 +1107,7 @@ export const story: SceneType[] = [
     backgroundImg: images.epilogue.elf,
     sound: sounds.epilogue.ending,
     // text: `"„Manchmal endet eine Geschichte…<br/>nur damit eine andere beginnen kann.“<br/><br/><i>Иногда одна история заканчивается… лишь для того, чтобы началась другая.</i>"`,
-    text: `<i>"Manchmal endet eine Geschichte...<br/>nur damit eine andere beginnen kann."</i>`,
+    text: `<i class="text-3xl">"Manchmal endet eine Geschichte...<br/>nur damit eine andere beginnen kann."</i>`,
     storyteller: { name: "Storyteller" },
     isEndOfGame: true,
   },
