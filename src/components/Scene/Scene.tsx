@@ -24,8 +24,6 @@ export function StoryScene() {
     image?: string;
   } | null>(null);
 
-  const [actionsLocked, setActionsLocked] = useState(false);
-
   const {
     availableActions,
     setAvailableActions,

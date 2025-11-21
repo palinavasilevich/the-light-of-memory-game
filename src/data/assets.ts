@@ -6,10 +6,10 @@ export const images = {
   firstChapter: {
     estate: "/src/assets/images/first-chapter/​estate.png",
     corridor: "/src/assets/images/first-chapter/corridor.png",
-    doorAndMirror: "/src/assets/images/first-chapter/doorAndMirror_2.png",
+    doorAndMirror: "/src/assets/images/first-chapter/doorAndMirror.png",
     door: "/src/assets/images/first-chapter/door.png",
     vision: "/src/assets/images/first-chapter/vision_5.png",
-    gloves: "/src/assets/images/first-chapter/gloves.png", // --- ??? EDIT
+    gloves: "/src/assets/images/first-chapter/gloves.png",
   },
 
   secondChapter: {
@@ -70,6 +70,10 @@ export const images = {
     ghostBook: "/src/assets/images/epilogue/ghostBook.png",
     elf: "/src/assets/images/epilogue/elf_2.png",
     finish: "/src/assets/images/fourth-chapter/lantern.png",
+  },
+
+  final: {
+    finalScreen: "/src/assets/images/darkness.jpg",
   },
 };
 

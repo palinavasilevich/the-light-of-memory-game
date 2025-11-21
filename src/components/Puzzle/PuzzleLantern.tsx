@@ -20,17 +20,17 @@ const SOURCE: { pos: Pos; dir: Pos } = {
 const CRYSTAL_POS: Pos = { x: 18, y: 4 };
 
 const INITIAL_HERO: Pos = { x: 4, y: 8 };
-// const INITIAL_MIRRORS: Mirror[] = [
-//   { x: 7, y: 6, kind: "/" },
-//   { x: 10, y: 4, kind: "\\" },
-//   { x: 13, y: 6, kind: "/" },
-// ];
-
 const INITIAL_MIRRORS: Mirror[] = [
-  { x: 6, y: 7, kind: "/" },
-  { x: 9, y: 5, kind: "\\" },
-  { x: 12, y: 3, kind: "/" },
+  { x: 7, y: 6, kind: "/" },
+  { x: 10, y: 4, kind: "\\" },
+  { x: 13, y: 6, kind: "/" },
 ];
+
+// const INITIAL_MIRRORS: Mirror[] = [
+//   { x: 6, y: 7, kind: "/" },
+//   { x: 9, y: 5, kind: "\\" },
+//   { x: 12, y: 3, kind: "/" },
+// ];
 
 type Props = { onSolved?: () => void };
 
