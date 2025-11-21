@@ -45,7 +45,7 @@ export const images = {
     scorpionMessage: "/src/assets/images/third-chapter/scorpionMessage.png",
     scorpionActivated: "/src/assets/images/third-chapter/scorpionActivated.png",
     scorpionButton: "/src/assets/images/third-chapter/scorpionButton.png",
-    darkness: "/src/assets/images/third-chapter/darkness_5.jpg",
+    darkness: "/src/assets/images/third-chapter/darkness_7.jpg",
     flash: "/src/assets/images/third-chapter/flash.png",
   },
 
