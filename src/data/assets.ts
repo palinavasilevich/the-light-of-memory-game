@@ -100,7 +100,7 @@ export const sounds = {
     memory:
       "/src/assets/sounds/third-chapter/atmosphere-dark-fantasy-dungeon-synthpiano-verse.mp3",
 
-    darkness: "/src/assets/sounds/third-chapter/darkness_2.mp3",
+    darkness: "/src/assets/sounds/third-chapter/darkness_3.mp3",
   },
   fourthChapter: {
     observatory:

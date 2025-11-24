@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { SENTENCES } from "../../constants/game";
+import { SENTENCES } from "../../constants";
 
 interface PuzzleSentenceBuilderProps {
   onSolved: () => void;

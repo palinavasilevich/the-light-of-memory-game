@@ -784,6 +784,7 @@ export const story: SceneType[] = [
     sound: sounds.thirdChapter.darkness,
     text: `<span class="text-3xl">Щелчок...</span>`,
     storyteller: { name: "Storyteller" },
+    duration: 3000,
   },
   {
     groupId: "chapter_3",
@@ -792,6 +793,7 @@ export const story: SceneType[] = [
     sound: sounds.thirdChapter.darkness,
     text: `<span class="text-3xl">Тьма...</span>`,
     storyteller: { name: "Storyteller" },
+    duration: 3000,
   },
   {
     groupId: "chapter_3",
@@ -800,7 +802,7 @@ export const story: SceneType[] = [
     sound: sounds.thirdChapter.darkness,
     text: `<span class="text-3xl">WASTED...</span>`,
     storyteller: { name: "Storyteller" },
-    duration: 9000,
+    duration: 8000,
   },
   {
     groupId: "chapter_3",
@@ -921,7 +923,7 @@ export const story: SceneType[] = [
     groupId: "chapter_4",
     id: "chapter_4_10",
     backgroundImg: images.fourthChapter.mirrors,
-    text: `"Кажется, эти зеркала — часть какого-то очень древнего механизма."`,
+    text: `"Кажется, эти зеркала часть какого-то очень древнего механизма."`,
     sound: sounds.fourthChapter.observatory,
   },
 
