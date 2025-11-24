@@ -12,8 +12,8 @@ type Props = {
 export function PuzzleScorpion({ rows = 4, cols = 4, onSolved }: Props) {
   const totalPieces = rows * cols;
   const [positions, setPositions] = useState<number[]>([]);
-  const [moves, setMoves] = useState(0);
-  const [time, setTime] = useState(0);
+  // const [moves, setMoves] = useState(0);
+  // const [time, setTime] = useState(0);
   const [isSolved, setIsSolved] = useState(false);
 
   useEffect(() => {
@@ -24,11 +24,11 @@ export function PuzzleScorpion({ rows = 4, cols = 4, onSolved }: Props) {
     setPositions(shuffled);
   }, [totalPieces]);
 
-  useEffect(() => {
-    if (isSolved) return;
-    const timer = setInterval(() => setTime((t) => t + 1), 1000);
-    return () => clearInterval(timer);
-  }, [isSolved]);
+  // useEffect(() => {
+  //   if (isSolved) return;
+  //   const timer = setInterval(() => setTime((t) => t + 1), 1000);
+  //   return () => clearInterval(timer);
+  // }, [isSolved]);
 
   const handleDragStart = (
     e: React.DragEvent<HTMLDivElement>,
@@ -40,7 +40,7 @@ export function PuzzleScorpion({ rows = 4, cols = 4, onSolved }: Props) {
   const handleDrop = (e: React.DragEvent<HTMLDivElement>, index: number) => {
     e.preventDefault();
     const originalIndex = parseInt(e.dataTransfer.getData("text"), 10);
-    setMoves((m) => m + 1);
+    // setMoves((m) => m + 1);
 
     setPositions((prev) => {
       const newPos = [...prev];
@@ -102,25 +102,30 @@ export function PuzzleScorpion({ rows = 4, cols = 4, onSolved }: Props) {
             const x = (pos % cols) * pieceSize;
             const y = Math.floor(pos / cols) * pieceSize;
             return (
-              <motion.div
+              <div
                 key={index}
-                className="puzzle-piece border border-amber-800 cursor-grab active:cursor-grabbing"
                 draggable={!isSolved}
                 onDragStart={(e) => handleDragStart(e, index)}
                 onDrop={(e) => handleDrop(e, index)}
                 onDragOver={handleDragOver}
-                whileHover={
-                  !isSolved ? { scale: 1.05, boxShadow: "0 0 10px gold" } : {}
-                }
-                style={{
-                  width: pieceSize,
-                  height: pieceSize,
-                  backgroundImage: `url(${scorpionImg})`,
-                  backgroundSize: `${cols * pieceSize}px ${rows * pieceSize}px`,
-                  backgroundPosition: `-${x}px -${y}px`,
-                  transition: "transform 0.2s ease",
-                }}
-              />
+              >
+                <motion.div
+                  whileHover={
+                    !isSolved ? { scale: 1.05, boxShadow: "0 0 10px gold" } : {}
+                  }
+                  className="puzzle-piece border border-amber-800 cursor-grab active:cursor-grabbing"
+                  style={{
+                    width: pieceSize,
+                    height: pieceSize,
+                    backgroundImage: `url(${scorpionImg})`,
+                    backgroundSize: `${cols * pieceSize}px ${
+                      rows * pieceSize
+                    }px`,
+                    backgroundPosition: `-${x}px -${y}px`,
+                    transition: "transform 0.2s ease",
+                  }}
+                />
+              </div>
             );
           })}
 

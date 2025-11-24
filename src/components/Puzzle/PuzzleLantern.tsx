@@ -49,7 +49,7 @@ export function PuzzleLantern({ onSolved }: Props) {
   );
   const [attempts, setAttempts] = useState<number>(0);
   const solvedRef = useRef(false);
-  const [solved, setSolved] = useState(false);
+  // const [solved, setSolved] = useState(false);
 
   // Images
   const scorpionImg = useRef<HTMLImageElement | null>(null);
@@ -290,11 +290,11 @@ export function PuzzleLantern({ onSolved }: Props) {
 
       if (hit && !solvedRef.current) {
         solvedRef.current = true;
-        setSolved(true);
+        // setSolved(true);
         setTimeout(() => onSolved?.(), 700);
       } else if (!hit && solvedRef.current) {
         solvedRef.current = false;
-        setSolved(false);
+        // setSolved(false);
       }
 
       raf = requestAnimationFrame(draw);
@@ -361,7 +361,7 @@ export function PuzzleLantern({ onSolved }: Props) {
     heroScreen.current = { x: INITIAL_HERO.x * CELL, y: INITIAL_HERO.y * CELL };
     setAttempts(0);
     solvedRef.current = false;
-    setSolved(false);
+    // setSolved(false);
   };
 
   return (

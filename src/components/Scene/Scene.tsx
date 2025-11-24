@@ -5,7 +5,7 @@ import { TextTyper } from "../TextTyper/TextTyper";
 import { Puzzle } from "../Puzzle/Puzzle";
 import { ActionButton } from "../ActionButton/ActionButton";
 import { ExtraContentModal } from "../Modal/ExtraContentModal";
-import { images } from "../../data/assets";
+import { images } from "../../data/images";
 
 import { useSceneAudio } from "../../hooks/useSceneAudio";
 import { useSceneNavigation } from "../../hooks/useSceneNavigation";

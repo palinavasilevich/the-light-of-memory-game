@@ -1,6 +1,7 @@
 import type { SceneType } from "../types/game";
 
-import { images, sounds } from "./assets";
+import { images } from "../data/images";
+import { sounds } from "./sounds";
 
 export const story: SceneType[] = [
   // ===== CHAPTER 1 =====
