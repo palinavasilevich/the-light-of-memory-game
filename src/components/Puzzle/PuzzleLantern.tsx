@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
-import heroSrc from "../../assets/images/batmanSprites.png";
-import scorpionSrc from "../../assets/images/puzzleScorpion.png";
-import crystalSrc from "../../assets/images/puzzleCrystal.png";
+import heroSrc from "../../assets/images/puzzles/lantern/batmanSprites.png";
+import scorpionSrc from "../../assets/images/puzzles/lantern/puzzleScorpion.png";
+import crystalSrc from "../../assets/images/puzzles/lantern/puzzleCrystal.png";
 
 const GRID_W = 20;
 const GRID_H = 12;
@@ -45,7 +45,7 @@ export function PuzzleLantern({ onSolved }: Props) {
   });
 
   const [mirrors, setMirrors] = useState<Mirror[]>(() =>
-    INITIAL_MIRRORS.map((m) => ({ ...m }))
+    INITIAL_MIRRORS.map((m) => ({ ...m })),
   );
   const [attempts, setAttempts] = useState<number>(0);
   const solvedRef = useRef(false);
@@ -182,7 +182,7 @@ export function PuzzleLantern({ onSolved }: Props) {
           // scY + (CELL - size) / 2,
           scY + (CELL - size) * -0.5,
           size,
-          size
+          size,
         );
       }
 
@@ -224,7 +224,7 @@ export function PuzzleLantern({ onSolved }: Props) {
           cryBaseX - size / 2,
           cryY - size / 2,
           size,
-          size
+          size,
         );
       }
 
@@ -254,7 +254,7 @@ export function PuzzleLantern({ onSolved }: Props) {
           heroPx + (CELL - heroSize) / 2,
           heroPy + (CELL - heroSize) / 2,
           heroSize,
-          heroSize
+          heroSize,
         );
       }
 
@@ -341,8 +341,8 @@ export function PuzzleLantern({ onSolved }: Props) {
           prev.map((mm) =>
             mm.x === m.x && mm.y === m.y
               ? { ...mm, x: pushTo.x, y: pushTo.y }
-              : mm
-          )
+              : mm,
+          ),
         );
         heroTarget.current = next;
         setHeroCell(next);

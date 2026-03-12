@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import scorpionImg from "../../assets/images/scorpion.png";
+import scorpionImg from "../../assets/images/puzzles/scorpion/scorpion.png";
 
 type Props = {
   rows?: number;
@@ -19,7 +19,7 @@ export function PuzzleScorpion({ rows = 4, cols = 4, onSolved }: Props) {
   useEffect(() => {
     // Случайное перемешивание кусочков при старте
     const shuffled = [...Array(totalPieces).keys()].sort(
-      () => Math.random() - 0.5
+      () => Math.random() - 0.5,
     );
     setPositions(shuffled);
   }, [totalPieces]);
@@ -32,7 +32,7 @@ export function PuzzleScorpion({ rows = 4, cols = 4, onSolved }: Props) {
 
   const handleDragStart = (
     e: React.DragEvent<HTMLDivElement>,
-    index: number
+    index: number,
   ) => {
     e.dataTransfer.setData("text/plain", index.toString());
   };
