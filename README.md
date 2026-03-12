@@ -1,73 +1,88 @@
-# React + TypeScript + Vite
+# 🕹️ My Interactive Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Description:**  
+This is an interactive text-and-graphics game where the player goes through story scenes, solves puzzles, and makes decisions that affect the story outcome.
 
-Currently, two official plugins are available:
+- Built with **React**, **TypeScript**, and **Tailwind CSS**.
+- Each scene can include: animated text, sound, images, player actions, and puzzles.
+- Supports **dialog windows**, **extra content modals**, and **automatic scene transitions**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 📦 Project Structure
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+/src
+ ├─ /assets           # Static assets (images and sounds)
+ ├─ /components       # Game components (TextTyper, Puzzle, ActionButton, Layout, Modal)
+ ├─ /constants        # Constants used across the project
+ ├─ /data             # Scene, image, and sound data
+ ├─ /hooks            # Custom React hooks
+ ├─ /store            # Zustand gameStore for global game state
+ ├─ /types            # TypeScript types
+ └─ App.tsx           # Main application component
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🚀 Installation and Running
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. Clone the repository:
+
+```bash
+git clone <repo_url>
+cd <repo_folder>
 ```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start the development server:
+
+```bash
+npm run dev
+```
+
+4. Open your browser and go to:
+
+```
+http://localhost:5173
+```
+
+---
+
+## 🕹️ How to Play
+
+- Read the text displayed on the screen.
+- Use action buttons to interact with objects or progress to the next scene.
+- Solve puzzles to unlock new scenes.
+- Some scenes may automatically transition after a set duration (`duration`).
+
+---
+
+## ⚙️ Configuration
+
+- Sounds can be toggled on/off via the global `gameStore`.
+- Background images and sounds are defined per scene in the `story` object.
+- Extra content modals are handled through the `ExtraContentModal` component.
+
+---
+
+## 🧩 Technologies
+
+- React + TypeScript
+- Tailwind CSS
+- Zustand (state management)
+- Vite (bundler and dev server)
+
+---
+
+## 🎨 Future Plans
+
+- Add more scenes and puzzles
+- Expand the action choice system
+- Improve text animation and sound effects
+- Add save/load game progress
